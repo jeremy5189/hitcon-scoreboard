@@ -1,4 +1,6 @@
-import * as PIXI from 'pixi'
+import * as PIXI from 'pixi';
+import * as dat from 'dat.gui';
+const gui = new dat.GUI();
 
 // Screen size
 const screen = {
@@ -7,15 +9,15 @@ const screen = {
 };
 
 // Create the renderer
-const renderer = PIXI.autoDetectRenderer(screen.w, screen.h);
+//const renderer = PIXI.autoDetectRenderer(screen.w, screen.h);
+var app = new PIXI.Application(screen.w, screen.h, {
+  backgroundColor : 0x000
+});
 
 // Add the canvas to the HTML document
-document.body.appendChild(renderer.view);
+document.body.appendChild(app.view);
 
-// Create a container object called the `stage`
-const stage = new PIXI.Container();
-
-var graphics = new PIXI.Graphics();
+const graphics = new PIXI.Graphics();
 
 // Draw red team
 graphics.lineStyle(0);
@@ -24,15 +26,26 @@ graphics.drawCircle(screen.w / 2, screen.h, 100);
 
 // Draw blue team
 graphics.beginFill(0x5D94FF, 1);
+let texture = PIXI.Texture.fromImage(require('../assets/texture/bunny.png'));
 let radius = screen.h * 0.78; // 850
 let rad = Math.PI / 7;
 for (let t = 1; t <= 6; t++) {
-  const x = radius * Math.cos(rad * t);
-  const y = radius * -Math.sin(rad * t);
-  graphics.drawCircle(x + (screen.w / 2), y + (screen.h), 50);
+
+  const x = radius * Math.cos(rad * t) + (screen.w / 2);
+  const y = radius * -Math.sin(rad * t) + screen.h;
+  //graphics.drawCircle(x, y, 10);
+
+  let bunny = new PIXI.Sprite(texture);
+  bunny.anchor.set(0.5);
+  bunny.x = x;
+  bunny.y = y;
+  gui.add(bunny, 'x', 0, 1920, x);
+  gui.add(bunny, 'y', 0, 1080, y);
+  app.stage.addChild(bunny);
 }
+
 graphics.endFill();
-stage.addChild(graphics);
+app.stage.addChild(graphics);
 
 // Tell the `renderer` to `render` the `stage`
-renderer.render(stage);
+//app.render(stage);

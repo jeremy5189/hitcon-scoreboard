@@ -12,8 +12,9 @@ let config = {
     },
     module: {
       loaders: [
+        { test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/, loader: "file-loader" },
         { test: /\.js$/, loader: 'babel', include: path.join(__dirname, 'src') },
-        { test: /\.json$/, include: path.join(__dirname, 'node_modules', 'pixi.js'),loader: 'json'},
+        { test: /\.json$/, include: path.join(__dirname, 'node_modules', 'pixi.js'), loader: 'json'},
         //We expose the non minified pixi file as a global. The minified one was not working with our solution
         { test: pixiModule, loader: 'expose?pixi' },
       ],
