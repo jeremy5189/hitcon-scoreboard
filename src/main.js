@@ -1,12 +1,12 @@
 import * as PIXI from 'pixi'
 
-//Create the renderer
+// Create the renderer
 const renderer = PIXI.autoDetectRenderer(800, 600);
 
-//Add the canvas to the HTML document
+// Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
 
-//Create a container object called the `stage`
+// Create a container object called the `stage`
 const stage = new PIXI.Container();
 
 
@@ -23,11 +23,11 @@ let style = {
     wordWrapWidth : 440
 };
 
-const basicText = new PIXI.Text('It is working !!', style);
+const basicText = new PIXI.Text('It is working', style);
 basicText.x = 30;
 basicText.y = 90;
 
 stage.addChild(basicText);
 
-//Tell the `renderer` to `render` the `stage`
+// Tell the `renderer` to `render` the `stage`
 renderer.render(stage);

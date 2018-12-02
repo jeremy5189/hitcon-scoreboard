@@ -4,7 +4,7 @@
   "description": "A Pixi.js starter kit with webpack and ES6",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --content-base src --hot --inline",
     "build": "webpack"
   },
   "author": "Samir Lachgar",
