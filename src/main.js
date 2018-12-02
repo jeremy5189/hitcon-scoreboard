@@ -1,7 +1,13 @@
 import * as PIXI from 'pixi'
 
+// Screen size
+const screen = {
+  w: 1920,
+  h: 1080
+};
+
 // Create the renderer
-const renderer = PIXI.autoDetectRenderer(1920, 1080);
+const renderer = PIXI.autoDetectRenderer(screen.w, screen.h);
 
 // Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -9,24 +15,24 @@ document.body.appendChild(renderer.view);
 // Create a container object called the `stage`
 const stage = new PIXI.Container();
 
-let style = {
-  font : 'bold italic 36px Arial',
-  fill : '#F7EDCA',
-  stroke : '#4a1850',
-  strokeThickness : 5,
-  dropShadow : true,
-  dropShadowColor : '#000000',
-  dropShadowAngle : Math.PI / 6,
-  dropShadowDistance : 6,
-  wordWrap : true,
-  wordWrapWidth : 440
-};
+var graphics = new PIXI.Graphics();
 
-const basicText = new PIXI.Text('It is working', style);
-basicText.x = 1000;
-basicText.y = 90;
+// Draw red team
+graphics.lineStyle(0);
+graphics.beginFill(0xFF0000, 1);
+graphics.drawCircle(960, 1080, 100);
 
-stage.addChild(basicText);
+// Draw blue team
+graphics.beginFill(0x0000FF, 1);
+let radius = screen.h * 0.78; // 850
+let rad = Math.PI / 7;
+for (let t = 1; t <= 6; t++) {
+  const x = radius * Math.cos(rad * t);
+  const y = radius * -Math.sin(rad * t);
+  graphics.drawCircle(x + (screen.w / 2), y + (screen.h), 10);
+}
+graphics.endFill();
+stage.addChild(graphics);
 
 // Tell the `renderer` to `render` the `stage`
 renderer.render(stage);
