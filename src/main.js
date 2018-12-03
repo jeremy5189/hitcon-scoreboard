@@ -1,7 +1,7 @@
 // Import PIXI
 import * as PIXI from 'pixi';
 import constant from './constant';
-import stars from './stars';
+//import stars from './stars';
 
 // Import debug controller
 //import * as dat from 'dat.gui';
@@ -15,7 +15,7 @@ var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
 
-app.stage.addChild(stars);
+//app.stage.addChild(stars);
 
 // Drawer of 2D Graphic
 const graphics = new PIXI.Graphics();
