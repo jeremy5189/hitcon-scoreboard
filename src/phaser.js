@@ -27,6 +27,9 @@ function phaser(app, blue_team, team_id) {
   app.stage.addChild(graphicsPhaser);
   app.stage.addChild(graphicsPhaserCenter);
 
+  const sound = PIXI.sound.Sound.from('assets/sound/phaser.wav');
+  sound.play();
+
   function shoot() {
 
     if (team_id > 2)
@@ -56,7 +59,7 @@ function phaser(app, blue_team, team_id) {
   setTimeout(function() {
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
-  }, 3000);
+  }, 2000);
 }
 
 export default phaser;

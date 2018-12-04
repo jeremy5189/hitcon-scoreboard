@@ -1,5 +1,6 @@
 // Import PIXI
 import * as PIXI from 'pixi';
+import 'pixi-sound';
 import constant from './constant';
 
 // Create the renderer
@@ -28,5 +29,21 @@ Object.values(blueteam).forEach((team) => {
 });
 
 import phaser from './phaser';
-phaser(app, blueteam, 0);
-
+setTimeout(() => {
+  phaser(app, blueteam, 0);
+  setTimeout(() => {
+    phaser(app, blueteam, 1);
+    setTimeout(() => {
+      phaser(app, blueteam, 2);
+      setTimeout(() => {
+        phaser(app, blueteam, 3);
+        setTimeout(() => {
+          phaser(app, blueteam, 4);
+          setTimeout(() => {
+            phaser(app, blueteam, 5);
+          }, 3000);
+        }, 3000);
+      }, 3000);
+    }, 3000);
+  }, 3000);
+}, 1000);
