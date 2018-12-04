@@ -48,7 +48,7 @@ function phaser(app, blue_team, team_id) {
   graphicsCanonLightBlur.blur = 10;
   graphicsCanonLight.filters = [graphicsCanonLightBlur];
   graphicsCanonLight.lineStyle(0);
-  graphicsCanonLight.beginFill(0xFF4629, 0.5);
+  graphicsCanonLight.beginFill(constant.color.cannon_light_red, 0.5);
   graphicsCanonLight.drawCircle(
     constant.red_team_position.cannon.x,
     constant.red_team_position.cannon.y,
@@ -59,7 +59,7 @@ function phaser(app, blue_team, team_id) {
   graphicsCanonLightCenterBlur.blur = 7;
   graphicsCanonLightCenter.filters = [graphicsCanonLightCenterBlur];
   graphicsCanonLightCenter.lineStyle(0);
-  graphicsCanonLightCenter.beginFill(0xFFF2A3, 0.8);
+  graphicsCanonLightCenter.beginFill(constant.color.phaser_center_yellow, 0.8);
   graphicsCanonLightCenter.drawCircle(
     constant.red_team_position.cannon.x,
     constant.red_team_position.cannon.y,
@@ -90,12 +90,12 @@ function phaser(app, blue_team, team_id) {
     }
 
     graphicsPhaser.clear();
-    graphicsPhaser.lineStyle(12, 0xF4D03F);
+    graphicsPhaser.lineStyle(12, constant.color.phaser_glow_yellow);
     graphicsPhaser.moveTo(constant.red_team_position.cannon.x, constant.red_team_position.cannon.y);
     graphicsPhaser.lineTo(x, y);
 
     graphicsPhaserCenter.clear();
-    graphicsPhaserCenter.lineStyle(6, 0xFFF2A3);
+    graphicsPhaserCenter.lineStyle(6, constant.color.phaser_center_yellow);
     graphicsPhaserCenter.moveTo(constant.red_team_position.cannon.x, constant.red_team_position.cannon.y);
     graphicsPhaserCenter.lineTo(x, y);
   }

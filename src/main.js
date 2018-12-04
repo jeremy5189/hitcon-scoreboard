@@ -5,7 +5,7 @@ import constant from './constant';
 
 // Create the renderer
 var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
-  backgroundColor : 0x000 // Black
+  backgroundColor : constant.color.background_black // Black
 });
 
 // Add the canvas to the HTML document
@@ -16,8 +16,8 @@ import * as dat from 'dat.gui';
 const gui = new dat.GUI();
 
 // Render background star
-//import stars from './stars';
-//app.stage.addChild(stars);
+import stars from './stars';
+app.stage.addChild(stars);
 
 // Render red team
 import redteam from './redteam';
