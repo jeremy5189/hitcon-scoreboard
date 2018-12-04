@@ -8,11 +8,11 @@ const screen = {
 const red_team_position = {
     center: {
         x: screen.w / 2,
-        y: screen.h
+        y: screen.h - 125
     },
     cannon: {
         x: screen.w / 2,
-        y: screen.h - 100
+        y: screen.h - 100 - 140
     }
 };
 
