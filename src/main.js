@@ -31,12 +31,18 @@ Object.values(blueteam).forEach((team) => {
 import phaser from './phaser';
 setTimeout(() => {
   phaser(app, blueteam, 0);
+  phaser(app, blueteam, 2);
+  phaser(app, blueteam, 3);
   setTimeout(() => {
     phaser(app, blueteam, 1);
+    phaser(app, blueteam, 2);
+    phaser(app, blueteam, 3);
     setTimeout(() => {
       phaser(app, blueteam, 2);
       setTimeout(() => {
         phaser(app, blueteam, 3);
+        phaser(app, blueteam, 4);
+        phaser(app, blueteam, 5);
         setTimeout(() => {
           phaser(app, blueteam, 4);
           setTimeout(() => {
