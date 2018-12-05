@@ -130,14 +130,14 @@ function phaser(app, blue_team, team_id) {
     graphicsSheildBlur.blur = 15;
     graphicsSheild.filters = [graphicsSheildBlur];
     graphicsSheild.lineStyle(0);
-    graphicsSheild.beginFill(0x46F975, 1);
+    graphicsSheild.beginFill(constant.color.sheild_green, 1);
     graphicsSheild.drawEllipse(pharser_final.x, pharser_final.y, 30, 20);
     graphicsSheild.endFill();
 
     graphicsSheildCenterBlur.blur = 5;
     graphicsSheildCenter.filters = [graphicsSheildCenterBlur];
     graphicsSheildCenter.lineStyle(0);
-    graphicsSheildCenter.beginFill(0x46F975, 1);
+    graphicsSheildCenter.beginFill(constant.color.sheild_green, 1);
     graphicsSheildCenter.drawEllipse(pharser_final.x, pharser_final.y, 10, 10);
     graphicsSheildCenter.endFill();
   }

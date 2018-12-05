@@ -14,6 +14,10 @@ document.body.appendChild(app.view);
 import * as dat from 'dat.gui';
 const gui = new dat.GUI();
 
+// Import ogo
+import logo from './logo';
+app.stage.addChild(logo);
+
 // Render background star
 //import stars from './stars';
 //app.stage.addChild(stars);

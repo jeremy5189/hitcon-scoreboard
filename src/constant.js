@@ -4,6 +4,12 @@ const screen = {
     h: 1080,
 };
 
+// Logo
+const logo = {
+    x: 135,
+    y: 135
+};
+
 // Red Team Position
 const red_team_position = {
     center: {
@@ -21,10 +27,12 @@ const color = {
     cannon_light_red: 0xFF4629,
     phaser_center_yellow: 0xFFF2A3,
     phaser_glow_yellow: 0xF4D03F,
+    sheild_green: 0x46F975,
 };
 
 export default {
     screen,
     red_team_position,
     color,
+    logo,
 };
