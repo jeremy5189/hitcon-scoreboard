@@ -16,8 +16,8 @@ import * as dat from 'dat.gui';
 const gui = new dat.GUI();
 
 // Render background star
-import stars from './stars';
-app.stage.addChild(stars);
+//import stars from './stars';
+//app.stage.addChild(stars);
 
 // Render red team
 import redteam from './redteam';

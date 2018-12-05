@@ -75,18 +75,61 @@ function phaser(app, blue_team, team_id) {
   const sound = PIXI.sound.Sound.from('assets/sound/phaser.wav');
   sound.play();
 
+  const blue_team_original = {
+    x: blue_team[team_id].sprite.x,
+    y: blue_team[team_id].sprite.y
+  };
+
+  let back_off_x = 0;
+  function blue_team_backoff() {
+
+    back_off_x += 0.5;
+    if (team_id > 2) {
+      blue_team[team_id].sprite.x -= back_off_x;
+      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
+    }
+    else {
+      blue_team[team_id].sprite.x += back_off_x;
+      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
+    }
+
+    if (back_off_x >= 3) {
+      app.ticker.remove(blue_team_backoff);
+      app.ticker.add(blue_team_reposition);
+    }
+  }
+
+  function blue_team_reposition() {
+    back_off_x -= 0.5;
+    if (team_id > 2) {
+      blue_team[team_id].sprite.x += back_off_x;
+      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
+    }
+    else {
+      blue_team[team_id].sprite.x -= back_off_x;
+      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
+    }
+
+    if (back_off_x < 0) {
+      app.ticker.remove(blue_team_reposition);
+    }
+  }
+
   function shoot() {
 
-    if (team_id > 2)
+    if (team_id > 2) {
       x -= 40;
-    else
+    }
+    else {
       x += 40;
+    }
 
     const y = liner_eq(slop, x, b);
     const dist = distance_to_cannon(x, y);
 
     if ( dist >= dist_map[team_id]) {
       app.ticker.remove(shoot);
+      app.ticker.add(blue_team_backoff);
     }
 
     graphicsPhaser.clear();
@@ -103,6 +146,8 @@ function phaser(app, blue_team, team_id) {
   app.ticker.add(shoot);
 
   setTimeout(function() {
+    blue_team[team_id].sprite.x = blue_team_original.x;
+    blue_team[team_id].sprite.y = blue_team_original.y;
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
