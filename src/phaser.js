@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi';
 import constant from './constant';
+import sound from './sound';
 
+// Phaser will stop at this distance
 const dist_map = {
   0: 610,
   1: 530,
@@ -10,10 +12,12 @@ const dist_map = {
   5: 610,
 };
 
+// liner equation y = mx + b
 function liner_eq(slop, x, b) {
   return slop * x + b;
 }
 
+// distance formula
 function distance_to_cannon(x, y) {
   return Math.sqrt(
     (y - constant.red_team_position.cannon.y) * (y - constant.red_team_position.cannon.y) +
@@ -21,6 +25,7 @@ function distance_to_cannon(x, y) {
   );
 }
 
+// Exported function
 function phaser(app, blue_team, team_id) {
 
   const graphicsPhaser = new PIXI.Graphics();
@@ -33,11 +38,15 @@ function phaser(app, blue_team, team_id) {
   const graphicsCanonLightBlur = new PIXI.filters.BlurFilter();
   const graphicsCanonLightCenterBlur = new PIXI.filters.BlurFilter();
 
+  // Blur more around the light beam
   graphicsPhaserBlur.blur = 4;
   graphicsPhaser.filters = [graphicsPhaserBlur];
+
+  // Blur less in the center of the light beam to make it look more solid
   graphicsPhaserCenterBlur.blur = 2;
   graphicsPhaserCenterBlur.filters = [graphicsPhaserCenterBlur];
 
+  // Make liner equation
   let slop, b, x = constant.red_team_position.cannon.x;
 
   slop = (blue_team[team_id].y - constant.red_team_position.cannon.y) /
@@ -45,6 +54,7 @@ function phaser(app, blue_team, team_id) {
 
   b = blue_team[team_id].y - slop * blue_team[team_id].x;
 
+  // Draw cannon light
   graphicsCanonLightBlur.blur = 10;
   graphicsCanonLight.filters = [graphicsCanonLightBlur];
   graphicsCanonLight.lineStyle(0);
@@ -56,6 +66,7 @@ function phaser(app, blue_team, team_id) {
   );
   graphicsCanonLight.endFill();
 
+  // Draw cannon light in center, less blur to make it solid
   graphicsCanonLightCenterBlur.blur = 7;
   graphicsCanonLightCenter.filters = [graphicsCanonLightCenterBlur];
   graphicsCanonLightCenter.lineStyle(0);
@@ -67,56 +78,41 @@ function phaser(app, blue_team, team_id) {
   );
   graphicsCanonLightCenter.endFill();
 
+  // Draw sheild
   const graphicsSheild = new PIXI.Graphics();
   const graphicsSheildCenter = new PIXI.Graphics();
 
+  // Before phaser (layer under)
   app.stage.addChild(graphicsSheild);
   app.stage.addChild(graphicsSheildCenter);
 
+  // Draw phaser and cannon light
   app.stage.addChild(graphicsPhaser);
   app.stage.addChild(graphicsPhaserCenter);
   app.stage.addChild(graphicsCanonLightCenter);
   app.stage.addChild(graphicsCanonLight);
 
-  const rnd = Math.floor(Math.random() * 3);
-  const sound = PIXI.sound.Sound.from(`assets/sound/phaser${rnd}.wav`);
-  sound.play();
+  // Play a random sound
+  sound.phaser().play();
 
-  const blue_team_original = {
-    x: blue_team[team_id].sprite.x,
-    y: blue_team[team_id].sprite.y
-  };
+  let blue_team_tilt_offset = 0.05;
 
-  let back_off_x = 0;
-  function blue_team_backoff() {
+  function blue_team_tilt() {
 
-    back_off_x += 0.5;
-    if (team_id > 2) {
-      blue_team[team_id].sprite.x -= back_off_x;
-      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
-    }
-    else {
-      blue_team[team_id].sprite.x += back_off_x;
-      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
-    }
+    blue_team_tilt_offset += 0.01;
+    blue_team[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blue_team_tilt_offset;
 
-    if (back_off_x >= 1) {
-      app.ticker.remove(blue_team_backoff);
+    if (blue_team_tilt_offset >= 0.1) {
+      app.ticker.remove(blue_team_tilt);
     }
   }
 
   function blue_team_reposition() {
-    back_off_x -= 0.1;
-    if (team_id > 2) {
-      blue_team[team_id].sprite.x += back_off_x;
-      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
-    }
-    else {
-      blue_team[team_id].sprite.x -= back_off_x;
-      blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
-    }
 
-    if (back_off_x < 0) {
+    blue_team_tilt_offset -= 0.01;
+    blue_team[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blue_team_tilt_offset;
+
+    if (blue_team_tilt_offset < 0.05) {
       app.ticker.remove(blue_team_reposition);
     }
   }
@@ -144,7 +140,6 @@ function phaser(app, blue_team, team_id) {
     graphicsSheildCenter.beginFill(0x46F975, 1);
     graphicsSheildCenter.drawEllipse(pharser_final.x, pharser_final.y, 10, 10);
     graphicsSheildCenter.endFill();
-
   }
 
   function shoot() {
@@ -159,12 +154,14 @@ function phaser(app, blue_team, team_id) {
     const y = liner_eq(slop, x, b);
     const dist = distance_to_cannon(x, y);
 
+    // When phaser hit stop pisition
     if ( dist >= dist_map[team_id]) {
       pharser_final.x = x;
       pharser_final.y = y;
-      sheild();
       app.ticker.remove(shoot);
-      //app.ticker.add(blue_team_backoff);
+
+      sheild();
+      app.ticker.add(blue_team_tilt);
     }
 
     graphicsPhaser.clear();
@@ -181,15 +178,13 @@ function phaser(app, blue_team, team_id) {
   app.ticker.add(shoot);
 
   setTimeout(function() {
-    blue_team[team_id].sprite.x = blue_team_original.x;
-    blue_team[team_id].sprite.y = blue_team_original.y;
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
     graphicsCanonLightCenter.clear();
     graphicsSheild.clear();
     graphicsSheildCenter.clear();
-    //app.ticker.add(blue_team_reposition);
+    app.ticker.add(blue_team_reposition);
   }, 2000);
 }
 

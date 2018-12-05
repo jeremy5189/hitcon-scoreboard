@@ -15,7 +15,7 @@ for (let team = 1; team <= 6; team++) {
   enterprise.anchor.set(0.5);
   enterprise.x = x;
   enterprise.y = y;
-  enterprise.rotation = (team < 4 ? -1 : 1) * 0.05;
+  enterprise.rotation = (team < 3 ? -1 : 1) * 0.05;
 
   blue_team.push({
     x,
