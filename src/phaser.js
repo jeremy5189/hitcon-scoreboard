@@ -2,12 +2,12 @@ import * as PIXI from 'pixi';
 import constant from './constant';
 
 const dist_map = {
-  0: 600,
+  0: 610,
   1: 530,
   2: 450,
   3: 450,
   4: 530,
-  5: 600,
+  5: 610,
 };
 
 function liner_eq(slop, x, b) {
@@ -67,12 +67,19 @@ function phaser(app, blue_team, team_id) {
   );
   graphicsCanonLightCenter.endFill();
 
+  const graphicsSheild = new PIXI.Graphics();
+  const graphicsSheildCenter = new PIXI.Graphics();
+
+  app.stage.addChild(graphicsSheild);
+  app.stage.addChild(graphicsSheildCenter);
+
   app.stage.addChild(graphicsPhaser);
   app.stage.addChild(graphicsPhaserCenter);
   app.stage.addChild(graphicsCanonLightCenter);
   app.stage.addChild(graphicsCanonLight);
 
-  const sound = PIXI.sound.Sound.from('assets/sound/phaser.wav');
+  const rnd = Math.floor(Math.random() * 3);
+  const sound = PIXI.sound.Sound.from(`assets/sound/phaser${rnd}.wav`);
   sound.play();
 
   const blue_team_original = {
@@ -93,14 +100,13 @@ function phaser(app, blue_team, team_id) {
       blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
     }
 
-    if (back_off_x >= 3) {
+    if (back_off_x >= 1) {
       app.ticker.remove(blue_team_backoff);
-      app.ticker.add(blue_team_reposition);
     }
   }
 
   function blue_team_reposition() {
-    back_off_x -= 0.5;
+    back_off_x -= 0.1;
     if (team_id > 2) {
       blue_team[team_id].sprite.x += back_off_x;
       blue_team[team_id].sprite.y = liner_eq(slop, blue_team[team_id].sprite.x, b);
@@ -113,6 +119,32 @@ function phaser(app, blue_team, team_id) {
     if (back_off_x < 0) {
       app.ticker.remove(blue_team_reposition);
     }
+  }
+
+  const pharser_final = {
+    x: 0,
+    y: 0
+  };
+
+  function sheild() {
+
+    const graphicsSheildBlur = new PIXI.filters.BlurFilter();
+    const graphicsSheildCenterBlur = new PIXI.filters.BlurFilter();
+
+    graphicsSheildBlur.blur = 15;
+    graphicsSheild.filters = [graphicsSheildBlur];
+    graphicsSheild.lineStyle(0);
+    graphicsSheild.beginFill(0x46F975, 1);
+    graphicsSheild.drawEllipse(pharser_final.x, pharser_final.y, 30, 20);
+    graphicsSheild.endFill();
+
+    graphicsSheildCenterBlur.blur = 5;
+    graphicsSheildCenter.filters = [graphicsSheildCenterBlur];
+    graphicsSheildCenter.lineStyle(0);
+    graphicsSheildCenter.beginFill(0x46F975, 1);
+    graphicsSheildCenter.drawEllipse(pharser_final.x, pharser_final.y, 10, 10);
+    graphicsSheildCenter.endFill();
+
   }
 
   function shoot() {
@@ -128,8 +160,11 @@ function phaser(app, blue_team, team_id) {
     const dist = distance_to_cannon(x, y);
 
     if ( dist >= dist_map[team_id]) {
+      pharser_final.x = x;
+      pharser_final.y = y;
+      sheild();
       app.ticker.remove(shoot);
-      app.ticker.add(blue_team_backoff);
+      //app.ticker.add(blue_team_backoff);
     }
 
     graphicsPhaser.clear();
@@ -152,6 +187,9 @@ function phaser(app, blue_team, team_id) {
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
     graphicsCanonLightCenter.clear();
+    graphicsSheild.clear();
+    graphicsSheildCenter.clear();
+    //app.ticker.add(blue_team_reposition);
   }, 2000);
 }
 
