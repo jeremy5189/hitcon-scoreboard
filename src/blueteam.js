@@ -26,7 +26,8 @@ for (let team = 0; team < 6; team++) {
     x,
     y,
     sprite: enterprise,
-    score: score[team]
+    score: score[team],
+    alive: true,
   });
 }
 

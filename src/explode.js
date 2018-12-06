@@ -1,38 +1,45 @@
 import * as PIXI from 'pixi';
 
-function explode(app) {
+let loader = new PIXI.loaders.Loader();
+loader.add('spritesheet', 'assets/texture/mc.json');
 
-    var loader = new PIXI.loaders.Loader();
-    loader.add('spritesheet', 'assets/texture/mc.json');
-    loader.once('complete', onAssetsLoaded);
-    loader.load();
+let loaded = false;
+
+function explode(app, blueteam, team_id) {
+
+    if (!loaded) {
+        loader.once('complete', onAssetsLoaded);
+        loader.load();
+        loaded = true;
+    }
+    else {
+        onAssetsLoaded();
+    }
 
     function onAssetsLoaded() {
 
         // create an array to store the textures
-        var explosionTextures = [],
-            i;
+        var explosionTextures = [], i;
 
         for (i = 0; i < 26; i++) {
             var texture = PIXI.Texture.fromFrame('Explosion_Sequence_A ' + (i+1) + '.png');
             explosionTextures.push(texture);
         }
 
-        for (i = 0; i < 1; i++) {
-            // create an explosion AnimatedSprite
-            var explosion = new PIXI.extras.AnimatedSprite(explosionTextures);
+        var explosion = new PIXI.extras.AnimatedSprite(explosionTextures);
 
-            explosion.x = Math.random() * app.screen.width;
-            explosion.y = Math.random() * app.screen.height;
-            explosion.anchor.set(0.5);
-            explosion.rotation = Math.random() * Math.PI;
-            explosion.scale.set(0.75 + Math.random() * 0.5);
-            explosion.gotoAndPlay(Math.random() * 27);
-            app.stage.addChild(explosion);
-        }
+        explosion.x = blueteam[team_id].x;
+        explosion.y = blueteam[team_id].y;
+        explosion.anchor.set(0.5);
+        explosion.rotation = Math.random() * Math.PI;
+        explosion.scale.set(2);
+        explosion.animationSpeed = 0.2;
+        explosion.gotoAndPlay(Math.random() * 27);
+        app.stage.addChild(explosion);
 
-        // start animating
-        app.start();
+        setTimeout(function() {
+            app.stage.removeChild(explosion);
+        }, 1000);
     }
 }
 
