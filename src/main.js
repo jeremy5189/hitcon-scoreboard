@@ -31,6 +31,14 @@ Object.values(blueteam).forEach((team) => {
   app.stage.addChild(team.sprite)
 });
 
+import score from './score';
+Object.keys(score).forEach((index) => {
+  score[index].x = blueteam[index].x;
+  score[index].y = blueteam[index].y - 150;
+  app.stage.addChild(score[index]);
+  score[index].text = index;
+});
+
 import phaser from './phaser';
 setTimeout(() => {
   phaser(app, blueteam, 0);

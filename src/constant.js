@@ -6,8 +6,8 @@ const screen = {
 
 // Logo
 const logo = {
-    x: 135,
-    y: 135
+    x: screen.w / 2,
+    y: screen.h / 2
 };
 
 // Red Team Position
