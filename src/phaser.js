@@ -178,6 +178,12 @@ function phaser(app, blue_team, team_id) {
   app.ticker.add(shoot);
 
   setTimeout(function() {
+    graphicsPhaser.clear();
+    graphicsPhaserCenter.clear();
+    graphicsCanonLight.clear();
+    graphicsCanonLightCenter.clear();
+    graphicsSheild.clear();
+    graphicsSheildCenter.clear();
     app.stage.removeChild(graphicsSheild);
     app.stage.removeChild(graphicsSheildCenter);
     app.stage.removeChild(graphicsPhaser);
