@@ -2,13 +2,10 @@ import * as PIXI from 'pixi';
 
 function explode(app) {
 
-    PIXI.loader
-        .add('spritesheet', 'assets/texture/mc.json')
-        .load(none);
-
-    function none() {
-
-    }
+    var loader = new PIXI.loaders.Loader();
+    loader.add('spritesheet', 'assets/texture/mc.json');
+    loader.once('complete', onAssetsLoaded);
+    loader.load();
 
     function onAssetsLoaded() {
 
@@ -21,7 +18,7 @@ function explode(app) {
             explosionTextures.push(texture);
         }
 
-        for (i = 0; i < 50; i++) {
+        for (i = 0; i < 1; i++) {
             // create an explosion AnimatedSprite
             var explosion = new PIXI.extras.AnimatedSprite(explosionTextures);
 

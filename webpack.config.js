@@ -13,7 +13,7 @@ let config = {
   module: {
     loaders: [
       {
-        test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3|json)$/,
+        test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
         loader: "file-loader",
         options: {
           outputPath: 'assets/',
@@ -21,9 +21,9 @@ let config = {
         }
       },
       { test: /\.js$/, loader: 'babel', include: path.join(__dirname, 'src') },
-      //{ test: /\.json$/, include: path.join(__dirname, 'node_modules', 'pixi.js'), loader: 'json'},
-      //We expose the non minified pixi file as a global. The minified one was not working with our solution
-      { test: pixiModule, loader: 'expose?pixi' },
+      { test: /\.js$/, include: path.join(__dirname, 'node_modules', 'pixi.js'), loader: 'transform?brfs'},
+      { test: /\.json$/, include: path.join(__dirname, 'node_modules', 'pixi.js'), loader: 'json'},
+      // We expose the non minified pixi file as a global. The minified one was not working with our solution
     ],
   },
   resolve: {
