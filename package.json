@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --hot --inline",
-    "build": "webpack"
+    "build": "webpack",
+    "mock": "php -S localhost:8000 mock-server/server.php"
   },
   "author": "Samir Lachgar",
   "license": "MIT",
@@ -30,6 +31,7 @@
     "webpack-dev-server": "^1.15.1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "dat.gui": "^0.7.3",
     "pixi-sound": "^2.0.4",
     "pixi.js": "^4.1.0"

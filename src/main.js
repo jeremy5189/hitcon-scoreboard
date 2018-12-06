@@ -1,5 +1,6 @@
 // Import PIXI
 import * as PIXI from 'pixi';
+import axios from 'axios';
 import constant from './constant';
 
 // Create the renderer
@@ -32,22 +33,56 @@ Object.values(blueteam).forEach((team) => {
   app.stage.addChild(team.score);
 });
 
+let serverData = {};
+
+function fetchData() {
+  clearPhaserInterval();
+  axios.get('http://localhost:8000').then((resp) => {
+    console.log('Fetched new data from server');
+    serverData = resp.data;
+    updateScore();
+    executeNormalAttack();
+  });
+}
+
+function updateScore() {
+  Object.keys(serverData).forEach((team) => {
+    let team_id = parseInt(team.replace('T', '')) - 1;
+    blueteam[team_id].score.text = serverData[team].score;
+    console.log(`updateScore: ${team} -> ${team_id} -> ${serverData[team].score}`);
+  });
+}
+
+function executeNormalAttack() {
+  Object.keys(serverData).forEach((team) => {
+    let team_id = parseInt(team.replace('T', '')) - 1;
+    if (serverData[team].under_attack) {
+      console.log(`executeNormalAttack: ${team} -> ${team_id}`);
+      loopPhaser(team_id);
+    }
+  });
+}
+
 import phaser from './phaser';
-setTimeout(() => {
-  phaser(app, blueteam, 0);
-  setTimeout(() => {
-    phaser(app, blueteam, 1);
-    setTimeout(() => {
-      phaser(app, blueteam, 2);
-      setTimeout(() => {
-        phaser(app, blueteam, 3);
-        setTimeout(() => {
-          phaser(app, blueteam, 4);
-          setTimeout(() => {
-            phaser(app, blueteam, 5);
-          }, 3000);
-        }, 3000);
-      }, 3000);
-    }, 3000);
+const phaserIntervalHandle = [
+  null, null, null,
+  null, null, null
+];
+
+function loopPhaser(team_id) {
+  phaserIntervalHandle[team_id] = setInterval(function() {
+    phaser(app, blueteam, team_id);
   }, 3000);
-}, 1000);
+}
+
+function clearPhaserInterval() {
+  Object.values(phaserIntervalHandle).forEach((handle) => {
+    clearInterval(handle);
+  });
+}
+
+fetchData();
+
+let updateHandle = setInterval(function() {
+  fetchData();
+}, 1000 * 10);
