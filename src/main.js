@@ -2,6 +2,8 @@
 import * as PIXI from 'pixi';
 import axios from 'axios';
 import constant from './constant';
+import config from './config';
+console.log('config.api', config.api);
 
 // Create the renderer
 var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
@@ -11,10 +13,6 @@ var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
 
-// Import debug controller
-import * as dat from 'dat.gui';
-const gui = new dat.GUI();
-
 // Import ogo
 import logo from './logo';
 app.stage.addChild(logo);
@@ -22,6 +20,9 @@ app.stage.addChild(logo);
 // Render background star
 //import stars from './stars';
 //app.stage.addChild(stars);
+
+import explode from './explode';
+explode(app);
 
 // Render red team
 import redteam from './redteam';
@@ -37,7 +38,7 @@ let serverData = {};
 
 function fetchData() {
   clearPhaserInterval();
-  axios.get('http://localhost:8000').then((resp) => {
+  axios.get(config.api).then((resp) => {
     console.log('Fetched new data from server');
     serverData = resp.data;
     updateScore();
