@@ -21,11 +21,11 @@ var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
 
-// Import logo
-app.stage.addChild(logo);
-
 // Render background star
 app.stage.addChild(stars);
+
+// Import logo
+app.stage.addChild(logo);
 
 // Render red team
 app.stage.addChild(redteam);

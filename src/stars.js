@@ -5,7 +5,6 @@ let stars = new PIXI.Sprite(stars_texture);
 
 stars.x = 0;
 stars.y = 0;
-//stars.anchor.set(1);
 
 export default stars;
 
