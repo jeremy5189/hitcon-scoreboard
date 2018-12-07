@@ -137,7 +137,7 @@ function phaser(app, blueteam, team_id) {
     graphicsSheild.drawEllipse(pharser_final.x, pharser_final.y, 30, 20);
     graphicsSheild.endFill();
 
-    graphicsSheildCenterBlur.blur = 5;
+    graphicsSheildCenterBlur.blur = 3;
     graphicsSheildCenter.filters = [graphicsSheildCenterBlur];
     graphicsSheildCenter.lineStyle(0);
     graphicsSheildCenter.beginFill(constant.color.sheild_blue, 1);

@@ -36,7 +36,7 @@ function explode(app, blueteam, team_id) {
     explosion.rotation = Math.random() * Math.PI;
     explosion.scale.set(2.5);
     explosion.animationSpeed = 0.2;
-    explosion.gotoAndPlay(Math.random() * 27);
+    explosion.gotoAndPlay(2);
     app.stage.addChild(explosion);
 
     setTimeout(function() {
