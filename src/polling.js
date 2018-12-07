@@ -1,5 +1,6 @@
 import axios from 'axios';
 import phaser from './phaser';
+import beam from './beam';
 import explode from './explode';
 import config from './config';
 import constant from './constant';
@@ -21,6 +22,28 @@ const phaserControl = {
   // Stop all phaser attack
   clearPhaserInterval() {
     Object.values(phaserControl.phaserIntervalHandle).forEach((handle) => {
+      clearInterval(handle);
+    });
+  }
+};
+
+const beamControl = {
+
+  // Save set interval handle
+  beamIntervalHandle: [
+    null, null, null, null, null, null
+  ],
+
+  // Init phaser attack with setInterval
+  loopBeam(app, blueteam, team_id, net_flow) {
+    beamControl.beamIntervalHandle[team_id]= setInterval(function() {
+      beam(app, blueteam, team_id, net_flow);
+    }, 5000);
+  },
+
+  // Stop all phaser attack
+  clearBeamInterval() {
+    Object.values(beamControl.beamIntervalHandle).forEach((handle) => {
       clearInterval(handle);
     });
   }
@@ -60,10 +83,10 @@ const explosionControl = {
       if (!polling.serverData[team].alive && blueteam[team_id].alive) {
         console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead`);
         // Under phaser attack now, die later
-        if (blueteam[team_id].under_phaser) {
+        if (blueteam[team_id].under_phaser || blueteam[team_id].under_beam) {
           setTimeout(function() {
             explosionControl.explode_wrap(app, blueteam, team_id);
-          }, 2000);
+          }, 3000);
         } else {
           // die now
           explosionControl.explode_wrap(app, blueteam, team_id);
@@ -91,13 +114,14 @@ const polling = {
 
     // Make sure do not phaser is shooting
     phaserControl.clearPhaserInterval();
+    beamControl.clearBeamInterval();
 
     // Fetch API
     axios.get(config.api).then((resp) => {
       console.log('Fetched new data from server');
       polling.serverData = resp.data;
       polling.updateScore(blueteam);
-      polling.executeNormalAttack(app, blueteam); // Start phaser loop
+      polling.executeAttack(app, blueteam); // Start phaser loop
       explosionControl.explodeIfNotAlive(app, blueteam);
     });
   },
@@ -112,12 +136,16 @@ const polling = {
   },
 
   // Init phaser attack
-  executeNormalAttack(app, blueteam) {
+  executeAttack(app, blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Only start phaser if target is alive and under attack
-      if (polling.serverData[team].under_attack && polling.serverData[team].alive) {
-        console.log(`executeNormalAttack: ${team} -> ${team_id}`);
+      if (polling.serverData[team].ddos > 0 && polling.serverData[team].alive) {
+        console.log(`executeAttack/beam: ${team} -> ${team_id}`);
+        beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
+      }
+      else if (polling.serverData[team].under_attack && polling.serverData[team].alive) {
+        console.log(`executeAttack/phaser: ${team} -> ${team_id}`);
         phaserControl.loopPhaser(app, blueteam, team_id);
       }
     });

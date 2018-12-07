@@ -27,7 +27,9 @@ const color = {
   cannon_light_red: 0xFF4629,
   phaser_center_yellow: 0xFFF2A3,
   phaser_glow_yellow: 0xF4D03F,
-  sheild_green: 0x46F975,
+  sheild_blue: 0x12A8F4,
+  beam_green: 0x12F42C,
+  beam_green_dark: 0x059115,
 };
 
 // Server Team ID => Local Team ID
@@ -37,7 +39,7 @@ const team_id_mapping = {
   'T3': 3,
   'T4': 2,
   'T5': 1,
-  'T6': 0
+  'T6': 0,
 };
 
 export default {

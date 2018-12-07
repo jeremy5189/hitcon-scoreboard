@@ -41,6 +41,7 @@ function explode(app, blueteam, team_id) {
 
     setTimeout(function() {
       app.stage.removeChild(explosion);
+      explosion.destroy();
     }, 1500);
   }
 }
