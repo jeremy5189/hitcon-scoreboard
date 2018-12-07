@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi';
+import sound from './sound';
 
 let loader = new PIXI.loaders.Loader();
 loader.add('spritesheet', 'assets/texture/mc.json');
@@ -26,6 +27,7 @@ function explode(app, blueteam, team_id) {
             explosionTextures.push(texture);
         }
 
+        sound.explode().play();
         var explosion = new PIXI.extras.AnimatedSprite(explosionTextures);
 
         explosion.x = blueteam[team_id].x;
