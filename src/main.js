@@ -1,8 +1,16 @@
 // Import PIXI
 import * as PIXI from 'pixi';
 import axios from 'axios';
+
 import constant from './constant';
 import config from './config';
+import logo from './logo';
+import stars from './stars';
+import redteam from './redteam';
+import blueteam from './blueteam';
+import explode from './explode';
+import phaser from './phaser';
+
 console.log('config.api', config.api);
 
 // Create the renderer
@@ -13,25 +21,19 @@ var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
 // Add the canvas to the HTML document
 document.body.appendChild(app.view);
 
-// Import ogo
-import logo from './logo';
+// Import logo
 app.stage.addChild(logo);
 
 // Render background star
-//import stars from './stars';
-//app.stage.addChild(stars);
+app.stage.addChild(stars);
 
 // Render red team
-import redteam from './redteam';
 app.stage.addChild(redteam);
 
-import blueteam from './blueteam';
 Object.values(blueteam).forEach((team) => {
   app.stage.addChild(team.sprite);
   app.stage.addChild(team.score);
 });
-
-import explode from './explode';
 
 let serverData = {};
 
@@ -106,8 +108,6 @@ function executeNormalAttack() {
     }
   });
 }
-
-import phaser from './phaser';
 
 const phaserIntervalHandle = [
   null, null, null,

@@ -1,5 +1,15 @@
 import * as PIXI from 'pixi';
-import constant from './constant';
+
+let stars_texture = PIXI.Texture.fromImage('assets/stars.jpg');
+let stars = new PIXI.Sprite(stars_texture);
+
+stars.x = 0;
+stars.y = 0;
+//stars.anchor.set(1);
+
+export default stars;
+
+/*import constant from './constant';
 
 // Drawer of 2D Graphic
 const graphics = new PIXI.Graphics();
@@ -20,4 +30,5 @@ for (let i = 0; i < 500; i++) {
 
 graphics.endFill();
 
-export default graphics;
+export default graphics;*/
+
