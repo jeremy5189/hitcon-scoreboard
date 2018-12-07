@@ -28,6 +28,7 @@ for (let team = 0; team < 6; team++) {
     sprite: enterprise,
     score: score[team],
     alive: true,
+    under_phaser: false
   });
 }
 

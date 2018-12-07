@@ -32,14 +32,14 @@ function explode(app, blueteam, team_id) {
         explosion.y = blueteam[team_id].y;
         explosion.anchor.set(0.5);
         explosion.rotation = Math.random() * Math.PI;
-        explosion.scale.set(2);
-        explosion.animationSpeed = 0.2;
+        explosion.scale.set(2.5);
+        explosion.animationSpeed = 0.1;
         explosion.gotoAndPlay(Math.random() * 27);
         app.stage.addChild(explosion);
 
         setTimeout(function() {
             app.stage.removeChild(explosion);
-        }, 1000);
+        }, 1500);
     }
 }
 

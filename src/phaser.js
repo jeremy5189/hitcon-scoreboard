@@ -28,6 +28,9 @@ function distance_to_cannon(x, y) {
 // Exported function
 function phaser(app, blue_team, team_id) {
 
+  // mark under attack
+  blue_team[team_id].under_phaser = true;
+
   const graphicsPhaser = new PIXI.Graphics();
   const graphicsPhaserCenter = new PIXI.Graphics();
   const graphicsCanonLight = new PIXI.Graphics();
@@ -178,6 +181,7 @@ function phaser(app, blue_team, team_id) {
   app.ticker.add(shoot);
 
   setTimeout(function() {
+    blue_team[team_id].under_phaser = false;
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();

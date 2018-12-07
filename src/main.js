@@ -46,19 +46,43 @@ function fetchData() {
   });
 }
 
+function explode_wrap(team_id) {
+  explode(app, blueteam, team_id);
+  blueteam[team_id].alive = false;
+  blueteam[team_id].sprite.alpha = 0;
+  let alphaHandle = setInterval(function() {
+    blueteam[team_id].sprite.alpha += 0.01;
+    if (blueteam[team_id].sprite.alpha >= 0.2) {
+      clearInterval(alphaHandle);
+    }
+  }, 500);
+}
+
 function explodeIfNotAlive() {
   Object.keys(serverData).forEach((team) => {
     let team_id = parseInt(team.replace('T', '')) - 1;
     if (!serverData[team].alive && blueteam[team_id].alive) {
       console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead`);
-      explode(app, blueteam, team_id);
-      blueteam[team_id].alive = false;
-      app.stage.removeChild(blueteam[team_id].sprite);
+      // Under phaser attack now, die later
+      if (blueteam[team_id].under_phaser) {
+        setTimeout(function() {
+          explode_wrap(team_id);
+        }, 2000);
+      }
+      else {
+        // die now
+        explode_wrap(team_id);
+      }
     }
     else {
       if (!blueteam[team_id].alive) {
         console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Alive`);
-        app.stage.addChild(blueteam[team_id].sprite);
+        let alphaHandle = setInterval(function() {
+          blueteam[team_id].sprite.alpha += 0.05;
+          if (blueteam[team_id].sprite.alpha >= 1) {
+            clearInterval(alphaHandle);
+          }
+        }, 100);
         blueteam[team_id].alive = true;
       }
     }
@@ -84,6 +108,7 @@ function executeNormalAttack() {
 }
 
 import phaser from './phaser';
+
 const phaserIntervalHandle = [
   null, null, null,
   null, null, null
@@ -103,6 +128,7 @@ function clearPhaserInterval() {
 
 fetchData();
 
-let updateHandle = setInterval(function() {
+// Polling
+setInterval(function() {
   fetchData();
 }, config.fetch_interval);
