@@ -6,6 +6,7 @@ let logo = new PIXI.Sprite(logo_texture);
 
 logo.x = constant.logo.x;
 logo.y = constant.logo.y;
+logo.alpha = 0.8;
 logo.anchor.set(0.5);
 
 export default logo;

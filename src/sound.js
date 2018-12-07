@@ -12,6 +12,6 @@ const explode = function() {
 };
 
 export default {
-    phaser,
-    explode,
+  phaser,
+  explode,
 };

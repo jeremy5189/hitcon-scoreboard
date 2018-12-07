@@ -26,10 +26,10 @@ function distance_to_cannon(x, y) {
 }
 
 // Exported function
-function phaser(app, blue_team, team_id) {
+function phaser(app, blueteam, team_id) {
 
   // mark under attack
-  blue_team[team_id].under_phaser = true;
+  blueteam[team_id].under_phaser = true;
 
   const graphicsPhaser = new PIXI.Graphics();
   const graphicsPhaserCenter = new PIXI.Graphics();
@@ -52,10 +52,10 @@ function phaser(app, blue_team, team_id) {
   // Make liner equation
   let slop, b, x = constant.red_team_position.cannon.x;
 
-  slop = (blue_team[team_id].y - constant.red_team_position.cannon.y) /
-    (blue_team[team_id].x - constant.red_team_position.cannon.x);
+  slop = (blueteam[team_id].y - constant.red_team_position.cannon.y) /
+    (blueteam[team_id].x - constant.red_team_position.cannon.x);
 
-  b = blue_team[team_id].y - slop * blue_team[team_id].x;
+  b = blueteam[team_id].y - slop * blueteam[team_id].x;
 
   // Draw cannon light
   graphicsCanonLightBlur.blur = 10;
@@ -98,25 +98,25 @@ function phaser(app, blue_team, team_id) {
   // Play a random sound
   sound.phaser().play();
 
-  let blue_team_tilt_offset = 0.05;
+  let blueteam_tilt_offset = 0.05;
 
-  function blue_team_tilt() {
+  function blueteam_tilt() {
 
-    blue_team_tilt_offset += 0.01;
-    blue_team[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blue_team_tilt_offset;
+    blueteam_tilt_offset += 0.01;
+    blueteam[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blueteam_tilt_offset;
 
-    if (blue_team_tilt_offset >= 0.1) {
-      app.ticker.remove(blue_team_tilt);
+    if (blueteam_tilt_offset >= 0.1) {
+      app.ticker.remove(blueteam_tilt);
     }
   }
 
-  function blue_team_reposition() {
+  function blueteam_reposition() {
 
-    blue_team_tilt_offset -= 0.01;
-    blue_team[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blue_team_tilt_offset;
+    blueteam_tilt_offset -= 0.01;
+    blueteam[team_id].sprite.rotation = (team_id < 3 ? -1 : 1) * blueteam_tilt_offset;
 
-    if (blue_team_tilt_offset < 0.05) {
-      app.ticker.remove(blue_team_reposition);
+    if (blueteam_tilt_offset < 0.05) {
+      app.ticker.remove(blueteam_reposition);
     }
   }
 
@@ -164,7 +164,7 @@ function phaser(app, blue_team, team_id) {
       app.ticker.remove(shoot);
 
       sheild();
-      app.ticker.add(blue_team_tilt);
+      app.ticker.add(blueteam_tilt);
     }
 
     graphicsPhaser.clear();
@@ -181,7 +181,7 @@ function phaser(app, blue_team, team_id) {
   app.ticker.add(shoot);
 
   setTimeout(function() {
-    blue_team[team_id].under_phaser = false;
+    blueteam[team_id].under_phaser = false;
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
@@ -200,7 +200,7 @@ function phaser(app, blue_team, team_id) {
     graphicsCanonLightCenter.destroy();
     graphicsSheild.destroy();
     graphicsSheildCenter.destroy();
-    app.ticker.add(blue_team_reposition);
+    app.ticker.add(blueteam_reposition);
   }, 2000);
 }
 
