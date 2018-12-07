@@ -2,6 +2,7 @@ import axios from 'axios';
 import phaser from './phaser';
 import explode from './explode';
 import config from './config';
+import constant from './constant';
 
 const phaserControl = {
 
@@ -26,20 +27,36 @@ const phaserControl = {
 };
 
 const explosionControl = {
+
   explode_wrap(app, blueteam, team_id) {
     explode(app, blueteam, team_id);
-    blueteam[team_id].alive = false;
+    blueteam[team_id].alive = false; // Prevent from explode again
     blueteam[team_id].sprite.alpha = 0;
+    explosionControl.animateAlphaToDead(blueteam[team_id]);
+  },
+
+  animateAlphaToDead(blueteam) {
     let alphaHandle = setInterval(function() {
-      blueteam[team_id].sprite.alpha += 0.01;
-      if (blueteam[team_id].sprite.alpha >= 0.2) {
+      blueteam.sprite.alpha += 0.01;
+      if (blueteam.sprite.alpha >= 0.2) {
         clearInterval(alphaHandle);
       }
     }, 500);
   },
+
+  animateAlphaToAlive(blueteam) {
+    let alphaHandle = setInterval(function() {
+      blueteam.sprite.alpha += 0.05;
+      if (blueteam.sprite.alpha >= 1) {
+        clearInterval(alphaHandle);
+      }
+    }, 100);
+  },
+
   explodeIfNotAlive(app, blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
-      let team_id = parseInt(team.replace('T', '')) - 1;
+      let team_id = constant.team_id_mapping[team];
+      // Explode if currently alive
       if (!polling.serverData[team].alive && blueteam[team_id].alive) {
         console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead`);
         // Under phaser attack now, die later
@@ -47,21 +64,16 @@ const explosionControl = {
           setTimeout(function() {
             explosionControl.explode_wrap(app, blueteam, team_id);
           }, 2000);
-        }
-        else {
+        } else {
           // die now
           explosionControl.explode_wrap(app, blueteam, team_id);
         }
       }
       else {
-        if (!blueteam[team_id].alive) {
+        // Currently dead, should come to live
+        if (!blueteam[team_id].alive && polling.serverData[team].alive) {
           console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Alive`);
-          let alphaHandle = setInterval(function() {
-            blueteam[team_id].sprite.alpha += 0.05;
-            if (blueteam[team_id].sprite.alpha >= 1) {
-              clearInterval(alphaHandle);
-            }
-          }, 100);
+          explosionControl.animateAlphaToAlive(blueteam[team_id]);
           blueteam[team_id].alive = true;
         }
       }
@@ -93,7 +105,7 @@ const polling = {
   // Update text on each blue team ship
   updateScore(blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
-      let team_id = parseInt(team.replace('T', '')) - 1;
+      let team_id = constant.team_id_mapping[team];
       blueteam[team_id].score.text = polling.serverData[team].score;
       console.log(`updateScore: ${team} -> ${team_id} -> ${polling.serverData[team].score}`);
     });
@@ -102,7 +114,7 @@ const polling = {
   // Init phaser attack
   executeNormalAttack(app, blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
-      let team_id = parseInt(team.replace('T', '')) - 1;
+      let team_id = constant.team_id_mapping[team];
       // Only start phaser if target is alive and under attack
       if (polling.serverData[team].under_attack && polling.serverData[team].alive) {
         console.log(`executeNormalAttack: ${team} -> ${team_id}`);

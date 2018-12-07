@@ -30,9 +30,20 @@ const color = {
   sheild_green: 0x46F975,
 };
 
+// Server Team ID => Local Team ID
+const team_id_mapping = {
+  'T1': 5,
+  'T2': 4,
+  'T3': 3,
+  'T4': 2,
+  'T5': 1,
+  'T6': 0
+};
+
 export default {
   screen,
   red_team_position,
   color,
   logo,
+  team_id_mapping,
 };
