@@ -2,7 +2,7 @@ import * as PIXI from 'pixi';
 
 const style = new PIXI.TextStyle({
     fontFamily: 'Arial',
-    fontSize: 36,
+    fontSize: 48,
     // fontStyle: 'italic',
     fontWeight: 'bold',
     fill: ['#ffffff', '#4d84f9'], // gradient
