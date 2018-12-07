@@ -105,4 +105,4 @@ fetchData();
 
 let updateHandle = setInterval(function() {
   fetchData();
-}, 1000 * 10);
+}, config.fetch_interval);
