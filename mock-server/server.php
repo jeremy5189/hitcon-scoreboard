@@ -4,7 +4,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 $mock = [
     'T1' => [
-        'teamname' => '隊伍 1',
+        'teamname' => '隊伍 1:3',
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(0, 100),
@@ -14,7 +14,7 @@ $mock = [
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
     'T2' => [
-        'teamname' => '隊伍 2',
+        'teamname' => '隊伍 2:2',
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(100, 1000),
@@ -24,7 +24,7 @@ $mock = [
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
     'T3' => [
-        'teamname' => '隊伍 3',
+        'teamname' => '隊伍 3:1',
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(1000, 10000),
@@ -34,7 +34,7 @@ $mock = [
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
     'T4' => [
-        'teamname' => '隊伍 4',
+        'teamname' => '隊伍 4:2',
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(10000, 99999),
@@ -44,7 +44,7 @@ $mock = [
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
     'T5' => [
-        'teamname' => '隊伍 5',
+        'teamname' => '隊伍 5:1',
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(1000, 10000),
@@ -54,7 +54,7 @@ $mock = [
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
     'T6' => [
-        'teamname' => '隊伍 6',
+        'teamname' => '隊伍 6:0',
         'under_attack' => true,
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(1000, 10000),

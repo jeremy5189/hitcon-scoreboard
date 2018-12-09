@@ -80,8 +80,9 @@ const explosionControl = {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Explode if currently alive
-      if (!polling.serverData[team].alive && blueteam[team_id].alive) {
-        console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead`);
+      if (polling.serverData[team].alive_level <= 0 &&
+            blueteam[team_id].alive_level > 0) {
+        console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead (Level = 0)`);
         // Under phaser attack now, die later
         if (blueteam[team_id].under_phaser || blueteam[team_id].under_beam) {
           setTimeout(function() {
@@ -94,12 +95,13 @@ const explosionControl = {
       }
       else {
         // Currently dead, should come to live
-        if (!blueteam[team_id].alive && polling.serverData[team].alive) {
-          console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Alive`);
+        if (blueteam[team_id].alive_level <= 0 &&
+              polling.serverData[team].alive_level > 0) {
+          console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Alive (Level > 0)`);
           explosionControl.animateAlphaToAlive(blueteam[team_id]);
-          blueteam[team_id].alive = true;
         }
       }
+      blueteam[team_id].alive_level = polling.serverData.alive_level;
     });
   }
 }
@@ -120,7 +122,7 @@ const polling = {
     axios.get(config.api).then((resp) => {
       console.log('Fetched new data from server');
       polling.serverData = resp.data;
-      polling.updateAliveLevel(blueteam);
+      polling.updateAliveLevel();
       polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
@@ -137,10 +139,9 @@ const polling = {
   },
 
   // Update team name
-  updateAliveLevel(blueteam) {
+  updateAliveLevel() {
     Object.keys(polling.serverData).forEach((team) => {
-      let team_id = constant.team_id_mapping[team];
-      blueteam[team_id].alive_level =
+      polling.serverData[team].alive_level =
         polling.serverData[team].alive_web +
         polling.serverData[team].alive_erp +
         polling.serverData[team].alive_sslvpn;
@@ -161,11 +162,11 @@ const polling = {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Only start phaser if target is alive and under attack
-      if (polling.serverData[team].ddos > 0 && polling.serverData[team].alive) {
+      if (polling.serverData[team].ddos > 0 && polling.serverData[team].alive_level > 0) {
         console.log(`executeAttack/beam: ${team} -> ${team_id}`);
         beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
       }
-      else if (polling.serverData[team].under_attack && polling.serverData[team].alive) {
+      else if (polling.serverData[team].under_attack && polling.serverData[team].alive_level > 0) {
         console.log(`executeAttack/phaser: ${team} -> ${team_id}`);
         phaserControl.loopPhaser(app, blueteam, team_id);
       }
