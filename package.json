@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --inline",
     "build": "webpack",
-    "mock": "php -S 0.0.0.0:8001 mock-server/server.php"
+    "mock": "php -S 0.0.0.0:8001 mock-server/server.php",
+    "mock-vtime": "php -S 0.0.0.0:8002 mock-server/vtime.php"
   },
   "author": "Samir Lachgar",
   "license": "MIT",

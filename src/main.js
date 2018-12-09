@@ -8,6 +8,7 @@ import stars from './stars';
 import redteam from './redteam';
 import blueteam from './blueteam';
 import polling from './polling';
+import vtime from './vtime';
 
 console.log('config.api', config.api);
 
@@ -25,6 +26,10 @@ app.stage.addChild(stars);
 // Import logo
 app.stage.addChild(logo);
 
+// Render vtime
+app.stage.addChild(vtime.hour);
+app.stage.addChild(vtime.day);
+
 // Render red team
 app.stage.addChild(redteam);
 
@@ -36,8 +41,15 @@ Object.values(blueteam).forEach((team) => {
 });
 
 polling.fetchData(app, blueteam);
+polling.fetchVTime(vtime);
+//polling.startMinTick(vtime);
 
 // Polling
 setInterval(function() {
   polling.fetchData(app, blueteam);
 }, config.fetch_interval);
+
+setInterval(function() {
+  polling.fetchVTime(vtime);
+}, config.fetch_vtime_interval);
+

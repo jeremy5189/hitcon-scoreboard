@@ -154,6 +154,39 @@ const polling = {
   // Local copy of api data
   serverData: {},
 
+  virtual: {
+    hour: 0,
+    day: 0,
+    min: 0,
+    tickHandle: null
+  },
+
+  // Fetch virtual time
+  fetchVTime(vtime) {
+    axios.get(config.api_vtime).then((resp) => {
+      console.log('Fetched new vtime');
+      polling.virtual.day = resp.data.day;
+      vtime.day.text = `Day ${resp.data.day}`;
+
+      let hour = parseInt(resp.data.hour);
+      polling.virtual.hour = hour < 10 ? `0${hour}` : hour;
+
+      vtime.hour.text = `Hour ${polling.virtual.hour}`;
+    });
+  },
+
+  startMinTick(vtime) {
+    polling.virtual.tickHandle = setInterval(function() {
+      let min = polling.virtual.min;
+      min = min < 10 ? `0${min}` : min;
+      vtime.hour.text = `${polling.virtual.hour}:${min}`;
+      polling.virtual.min += 1;
+      if (polling.virtual.min >= 60) {
+        polling.virtual.min = 0;
+      }
+    }, 1000);
+  },
+
   // Main fetcher
   fetchData(app, blueteam) {
 
