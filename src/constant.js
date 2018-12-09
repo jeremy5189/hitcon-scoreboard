@@ -25,9 +25,10 @@ const red_team_position = {
 const color = {
   background_black: 0x000000,
   cannon_light_red: 0xFF4629,
-  phaser_center_yellow: 0XFFCCCC,
+  phaser_center_yellow: 0xFFCCCC,
   phaser_glow_yellow: 0xD40501,
   sheild_blue: 0x12A8F4,
+  sheild_red: 0xD40501,
   beam_green: 0x12F42C,
   beam_green_dark: 0x059115,
 };

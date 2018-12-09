@@ -120,6 +120,7 @@ const polling = {
     axios.get(config.api).then((resp) => {
       console.log('Fetched new data from server');
       polling.serverData = resp.data;
+      polling.updateAliveLevel(blueteam);
       polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
@@ -132,6 +133,17 @@ const polling = {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       blueteam[team_id].name.text = polling.serverData[team].teamname;
+    });
+  },
+
+  // Update team name
+  updateAliveLevel(blueteam) {
+    Object.keys(polling.serverData).forEach((team) => {
+      let team_id = constant.team_id_mapping[team];
+      blueteam[team_id].alive_level =
+        polling.serverData[team].alive_web +
+        polling.serverData[team].alive_erp +
+        polling.serverData[team].alive_sslvpn;
     });
   },
 

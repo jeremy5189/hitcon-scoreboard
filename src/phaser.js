@@ -133,15 +133,31 @@ function phaser(app, blueteam, team_id) {
     graphicsSheildBlur.blur = 15;
     graphicsSheild.filters = [graphicsSheildBlur];
     graphicsSheild.lineStyle(0);
-    graphicsSheild.beginFill(constant.color.sheild_blue, 1);
-    graphicsSheild.drawEllipse(pharser_final.x, pharser_final.y, 30, 20);
+    graphicsSheild.beginFill(
+      blueteam[team_id].alive_level < 3 ? constant.color.sheild_red : constant.color.sheild_blue,
+      1
+    );
+    graphicsSheild.drawEllipse(
+      pharser_final.x,
+      pharser_final.y,
+      blueteam[team_id].alive_level < 3 ? 30 : 50,
+      blueteam[team_id].alive_level < 3 ? 20 : 40,
+    );
     graphicsSheild.endFill();
 
     graphicsSheildCenterBlur.blur = 3;
     graphicsSheildCenter.filters = [graphicsSheildCenterBlur];
     graphicsSheildCenter.lineStyle(0);
-    graphicsSheildCenter.beginFill(constant.color.sheild_blue, 1);
-    graphicsSheildCenter.drawEllipse(pharser_final.x, pharser_final.y, 10, 10);
+    graphicsSheildCenter.beginFill(
+      blueteam[team_id].alive_level < 3 ? constant.color.sheild_red : constant.color.sheild_blue,
+      1
+    );
+    graphicsSheildCenter.drawEllipse(
+      pharser_final.x,
+      pharser_final.y,
+      blueteam[team_id].alive_level < 3 ? 10 : 20,
+      blueteam[team_id].alive_level < 3 ? 10 : 20,
+    );
     graphicsSheildCenter.endFill();
   }
 
@@ -164,7 +180,9 @@ function phaser(app, blueteam, team_id) {
       app.ticker.remove(shoot);
 
       sheild();
-      app.ticker.add(blueteam_tilt);
+      if (blueteam[team_id].alive_level >= 3) {
+        app.ticker.add(blueteam_tilt);
+      }
     }
 
     graphicsPhaser.clear();
@@ -200,7 +218,10 @@ function phaser(app, blueteam, team_id) {
     graphicsCanonLightCenter.destroy();
     graphicsSheild.destroy();
     graphicsSheildCenter.destroy();
-    app.ticker.add(blueteam_reposition);
+
+    if (blueteam[team_id].alive_level >= 3) {
+      app.ticker.add(blueteam_reposition);
+    }
   }, 2000);
 }
 
