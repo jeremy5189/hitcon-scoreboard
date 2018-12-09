@@ -120,9 +120,18 @@ const polling = {
     axios.get(config.api).then((resp) => {
       console.log('Fetched new data from server');
       polling.serverData = resp.data;
+      polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
       explosionControl.explodeIfNotAlive(app, blueteam);
+    });
+  },
+
+  // Update team name
+  updateTeamName(blueteam) {
+    Object.keys(polling.serverData).forEach((team) => {
+      let team_id = constant.team_id_mapping[team];
+      blueteam[team_id].name.text = polling.serverData[team].teamname;
     });
   },
 

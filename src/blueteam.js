@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi';
 import constant from './constant';
 import score from './score';
+import name from './name';
 
 const blueteam = [];
 const enterpriseTexture = PIXI.Texture.fromImage('assets/texture/enterprise.png');
@@ -22,11 +23,15 @@ for (let team = 0; team < 6; team++) {
   score[team].y = y - 150;
   score[team].text = team;
 
+  name[team].x = x;
+  name[team].y = y - 200;
+
   blueteam.push({
     x,
     y,
     sprite: enterprise,
     score: score[team],
+    name: name[team],
     alive: true,
     under_phaser: false,
     under_beam: false

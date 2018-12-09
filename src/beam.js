@@ -66,8 +66,6 @@ function beam(app, blueteam, team_id, net_flow) {
     });
   }
 
-  console.log('beam.length', beams.length);
-
   setTimeout(function() {
     Object.values(beams).forEach((obj) => {
       obj.line.clear();

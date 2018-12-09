@@ -32,6 +32,7 @@ app.stage.addChild(redteam);
 Object.values(blueteam).forEach((team) => {
   app.stage.addChild(team.sprite);
   app.stage.addChild(team.score);
+  app.stage.addChild(team.name);
 });
 
 polling.fetchData(app, blueteam);
