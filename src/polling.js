@@ -51,11 +51,44 @@ const beamControl = {
 
 // blueteam.alive_level = 1
 const floatingControl = {
-  startFloating(app, blueteam, team_id) {
+
+  // Save set interval handle
+  floatingIntervalHandle: [
+    null, null, null, null, null, null
+  ],
+
+  floatingRotation: [
+    0, 0, 0, 0, 0, 0
+  ],
+
+  // Init phaser attack with setInterval
+  loopFloating(app, blueteam, team_id) {
+    floatingControl.floatingRotation[team_id] = blueteam[team_id].sprite.rotation;;
+    blueteam[team_id].prev_rotation = blueteam[team_id].sprite.rotation;
+    floatingControl.floatingIntervalHandle[team_id] = setInterval(function() {
+      // change rotation
+      floatingControl.floatingRotation[team_id] += 1.5;
+      blueteam[team_id].sprite.rotation = 0.3 * Math.sin(floatingControl.floatingRotation[team_id] * Math.PI / 180);
+    }, 10);
+  },
+
+  // Stop all phaser attack
+  clearFloatingInterval(team_id) {
+    clearInterval(floatingControl.floatingIntervalHandle[team_id]);
+  },
+
+  startFloating(app, blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Float if currently alive
-
+      if (polling.serverData[team].alive_level === 1 &&
+        blueteam[team_id].prev_alive_level > 1) {
+        console.log(`startFloating: ${team} -> ${team_id}`);
+        floatingControl.loopFloating(app, blueteam, team_id);
+      }
+      else if (polling.serverData[team].alive_level !== 1) {
+        floatingControl.clearFloatingInterval(team_id);
+      }
     });
   }
 }
@@ -136,6 +169,7 @@ const polling = {
       polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
+      floatingControl.startFloating(app, blueteam);
       explosionControl.explodeIfNotAlive(app, blueteam);
     });
   },
