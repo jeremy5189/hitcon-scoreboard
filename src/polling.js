@@ -49,8 +49,19 @@ const beamControl = {
   }
 };
 
-const explosionControl = {
+// blueteam.alive_level = 1
+const floatingControl = {
+  startFloating(app, blueteam, team_id) {
+    Object.keys(polling.serverData).forEach((team) => {
+      let team_id = constant.team_id_mapping[team];
+      // Float if currently alive
 
+    });
+  }
+}
+
+// blueteam.alive_level = 0
+const explosionControl = {
   explode_wrap(app, blueteam, team_id) {
     explode(app, blueteam, team_id);
     blueteam[team_id].alive = false; // Prevent from explode again
@@ -81,7 +92,7 @@ const explosionControl = {
       let team_id = constant.team_id_mapping[team];
       // Explode if currently alive
       if (polling.serverData[team].alive_level <= 0 &&
-            blueteam[team_id].alive_level > 0) {
+            blueteam[team_id].prev_alive_level > 0) {
         console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead (Level = 0)`);
         // Under phaser attack now, die later
         if (blueteam[team_id].under_phaser || blueteam[team_id].under_beam) {
@@ -95,13 +106,12 @@ const explosionControl = {
       }
       else {
         // Currently dead, should come to live
-        if (blueteam[team_id].alive_level <= 0 &&
+        if (blueteam[team_id].prev_alive_level <= 0 &&
               polling.serverData[team].alive_level > 0) {
           console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Alive (Level > 0)`);
           explosionControl.animateAlphaToAlive(blueteam[team_id]);
         }
       }
-      blueteam[team_id].alive_level = polling.serverData.alive_level;
     });
   }
 }
@@ -122,7 +132,7 @@ const polling = {
     axios.get(config.api).then((resp) => {
       console.log('Fetched new data from server');
       polling.serverData = resp.data;
-      polling.updateAliveLevel();
+      polling.updateAliveLevel(blueteam);
       polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
@@ -139,12 +149,20 @@ const polling = {
   },
 
   // Update team name
-  updateAliveLevel() {
+  // Level:
+  //   3: Fully alive
+  //   2: Shield Red
+  //   1: Floating, change to crappy ship texture
+  //   0: Explode, alpha to 0.2
+  updateAliveLevel(blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
+      let team_id = constant.team_id_mapping[team];
       polling.serverData[team].alive_level =
         polling.serverData[team].alive_web +
         polling.serverData[team].alive_erp +
         polling.serverData[team].alive_sslvpn;
+      blueteam[team_id].prev_alive_level = blueteam[team_id].alive_level;
+      blueteam[team_id].alive_level = polling.serverData[team].alive_level;
     });
   },
 
@@ -167,7 +185,7 @@ const polling = {
         beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
       }
       else if (polling.serverData[team].under_attack && polling.serverData[team].alive_level > 0) {
-        console.log(`executeAttack/phaser: ${team} -> ${team_id}`);
+        console.log(`executeAttack/phaser: ${team} -> ${team_id}, alive_level = ${blueteam[team_id].alive_level}`);
         phaserControl.loopPhaser(app, blueteam, team_id);
       }
     });

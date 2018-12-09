@@ -35,7 +35,8 @@ for (let team = 0; team < 6; team++) {
     alive: true,
     under_phaser: false,
     under_beam: false,
-    alive_level: 3 // alive_web + alive_erp + alive_sslvpn
+    alive_level: 3,
+    prev_alive_level: 3,
   });
 }
 
