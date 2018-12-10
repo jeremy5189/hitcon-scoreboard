@@ -12,6 +12,62 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+		<style type="text/css">
+.playback {
+	display: none;
+}
+
+.sub {
+	text-shadow: #aaa 0 0 2px;
+}
+
+.sep {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.line {
+	background-image: url("css/img/sep.png");
+	background-position: 0 -29px;
+	width: 512px;
+	height: 29px;
+	margin: 0 auto !important;
+}
+
+.line::before {
+	background-image: url("css/img/sep.png");
+	background-position: 0 0;
+	height: 29px;
+	left: calc(50% - 356px);
+	position: absolute;
+	top: 0;
+	width: 100px;
+	content: "";
+}
+
+.line::after {
+	background-image: url("css/img/sep.png");
+	background-position: 100% 0;
+	height: 29px;
+	right: calc(50% - 356px);
+	position: absolute;
+	top: 0;
+	width: 100px;
+	content: "";
+}
+
+.section {
+	display: flex;
+	justify-content: center;
+}
+
+.lf {
+	break-after: always;
+	width: 100%;
+}
+
+</style>
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
