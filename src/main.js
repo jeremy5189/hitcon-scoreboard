@@ -14,7 +14,8 @@ console.log('config.api', config.api);
 
 // Create the renderer
 var app = new PIXI.Application(constant.screen.w, constant.screen.h, {
-  backgroundColor : constant.color.background_black // Black
+  backgroundColor : constant.color.background_black,
+  forceCanvas: true
 });
 
 // Add the canvas to the HTML document

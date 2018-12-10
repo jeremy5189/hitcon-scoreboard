@@ -65,4 +65,67 @@ $mock = [
     ]
 ];
 
-echo json_encode($mock);
+$mock2 = [
+    'T1' => [
+        'teamname' => '隊伍 1',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(0, 100),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ],
+    'T2' => [
+        'teamname' => '隊伍 2',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(100, 1000),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ],
+    'T3' => [
+        'teamname' => '隊伍 3',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(1000, 10000),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ],
+    'T4' => [
+        'teamname' => '隊伍 4',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(10000, 99999),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ],
+    'T5' => [
+        'teamname' => '隊伍 5',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(1000, 10000),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ],
+    'T6' => [
+        'teamname' => '隊伍 6',
+        'under_attack' => true,
+        'ddos' => 0,
+        'score' => rand(1000, 10000),
+        'alive_web' => (rand(0, 1) === 1 ? true : false),
+        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
+        'alive' => (rand(0, 1) === 1 ? true : false)
+    ]
+];
+
+echo json_encode($mock2);

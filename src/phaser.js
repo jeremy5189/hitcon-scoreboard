@@ -1,16 +1,40 @@
 import * as PIXI from 'pixi';
 import constant from './constant';
 import sound from './sound';
+import config from './config';
 
 // Phaser will stop at this distance
 const dist_map = {
-  0: 610,
-  1: 530,
+  0: 590,
+  1: 520,
   2: 450,
   3: 450,
-  4: 530,
-  5: 610,
+  4: 520,
+  5: 590,
 };
+
+const shield_rotation_map = {
+  0: -1.75,
+  1: 3.7,
+  2: 3.3,
+  3: -3.3,
+  4: -3.7,
+  5: 1.75,
+};
+
+const shieldTexture = PIXI.Texture.fromImage('assets/texture/shield.png');
+const shield = [
+  new PIXI.Sprite(shieldTexture),
+  new PIXI.Sprite(shieldTexture),
+  new PIXI.Sprite(shieldTexture),
+  new PIXI.Sprite(shieldTexture),
+  new PIXI.Sprite(shieldTexture),
+  new PIXI.Sprite(shieldTexture)
+];
+const shieldAdded = [
+  false, false, false,
+  false, false, false
+];
 
 // liner equation y = mx + b
 function liner_eq(slop, x, b) {
@@ -41,13 +65,15 @@ function phaser(app, blueteam, team_id) {
   const graphicsCanonLightBlur = new PIXI.filters.BlurFilter();
   const graphicsCanonLightCenterBlur = new PIXI.filters.BlurFilter();
 
-  // Blur more around the light beam
-  graphicsPhaserBlur.blur = 4;
-  graphicsPhaser.filters = [graphicsPhaserBlur];
+  if (!config.fast_render) {
+    // Blur more around the light beam
+    graphicsPhaserBlur.blur = 4;
+    graphicsPhaser.filters = [graphicsPhaserBlur];
 
-  // Blur less in the center of the light beam to make it look more solid
-  graphicsPhaserCenterBlur.blur = 2;
-  graphicsPhaserCenterBlur.filters = [graphicsPhaserCenterBlur];
+    // Blur less in the center of the light beam to make it look more solid
+    graphicsPhaserCenterBlur.blur = 2;
+    graphicsPhaserCenterBlur.filters = [graphicsPhaserCenterBlur];
+  }
 
   // Make liner equation
   let slop, b, x = constant.red_team_position.cannon.x;
@@ -92,8 +118,11 @@ function phaser(app, blueteam, team_id) {
   // Draw phaser and cannon light
   app.stage.addChild(graphicsPhaser);
   app.stage.addChild(graphicsPhaserCenter);
-  app.stage.addChild(graphicsCanonLightCenter);
-  app.stage.addChild(graphicsCanonLight);
+
+  if (!config.fast_render) {
+    app.stage.addChild(graphicsCanonLightCenter);
+    app.stage.addChild(graphicsCanonLight);
+  }
 
   // Play a random sound
   sound.phaser().play();
@@ -124,6 +153,24 @@ function phaser(app, blueteam, team_id) {
     x: 0,
     y: 0
   };
+
+  function shield_static() {
+
+    // Add hidden shield
+    if (!shieldAdded[team_id]) {
+      shield[team_id].alpha = 0;
+      shieldAdded[team_id] = true;
+      app.stage.addChild(shield[team_id]);
+    }
+
+    shield[team_id].alpha = 0.9;
+    shield[team_id].zOrder = 999;
+    shield[team_id].anchor.set(0.5);
+    shield[team_id].x = pharser_final.x;
+    shield[team_id].y = pharser_final.y;
+    shield[team_id].scale.set(0.4);
+    shield[team_id].rotation = shield_rotation_map[team_id];
+  }
 
   function sheild() {
 
@@ -179,7 +226,9 @@ function phaser(app, blueteam, team_id) {
       pharser_final.y = y;
       app.ticker.remove(shoot);
 
-      sheild();
+      //sheild();
+      shield_static();
+
       if (blueteam[team_id].alive_level >= 3) {
         app.ticker.add(blueteam_tilt);
       }
@@ -200,6 +249,8 @@ function phaser(app, blueteam, team_id) {
 
   setTimeout(function() {
     blueteam[team_id].under_phaser = false;
+    shield[team_id].alpha = 0;
+
     graphicsPhaser.clear();
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
