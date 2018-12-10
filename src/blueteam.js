@@ -4,7 +4,7 @@ import score from './score';
 import name from './name';
 
 const blueteam = [];
-const enterpriseTexture = PIXI.Texture.fromImage('assets/texture/enterprise.png');
+const enterpriseTexture = PIXI.Texture.fromImage('assets/texture/enterprise-normal.png');
 
 for (let team = 0; team < 6; team++) {
 

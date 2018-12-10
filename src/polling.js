@@ -61,20 +61,25 @@ const floatingControl = {
     0, 0, 0, 0, 0, 0
   ],
 
+  enterpriseBrokenTexture: PIXI.Texture.fromImage('assets/texture/enterprise-broken.png'),
+  enterpriseNormalTexture: PIXI.Texture.fromImage('assets/texture/enterprise-normal.png'),
+
   // Init phaser attack with setInterval
   loopFloating(app, blueteam, team_id) {
     floatingControl.floatingRotation[team_id] = blueteam[team_id].sprite.rotation;;
     blueteam[team_id].prev_rotation = blueteam[team_id].sprite.rotation;
+    blueteam[team_id].sprite.texture = floatingControl.enterpriseBrokenTexture;
     floatingControl.floatingIntervalHandle[team_id] = setInterval(function() {
       // change rotation
-      floatingControl.floatingRotation[team_id] += 1.5;
-      blueteam[team_id].sprite.rotation = 0.3 * Math.sin(floatingControl.floatingRotation[team_id] * Math.PI / 180);
+      floatingControl.floatingRotation[team_id] += 1.2;
+      blueteam[team_id].sprite.rotation = 0.1 * Math.sin(floatingControl.floatingRotation[team_id] * Math.PI / 180);
     }, 10);
   },
 
   // Stop all phaser attack
-  clearFloatingInterval(team_id) {
+  clearFloatingInterval(blueteam, team_id) {
     clearInterval(floatingControl.floatingIntervalHandle[team_id]);
+    blueteam[team_id].sprite.texture = floatingControl.enterpriseNormalTexture;
   },
 
   startFloating(app, blueteam) {
@@ -87,7 +92,7 @@ const floatingControl = {
         floatingControl.loopFloating(app, blueteam, team_id);
       }
       else if (polling.serverData[team].alive_level !== 1) {
-        floatingControl.clearFloatingInterval(team_id);
+        floatingControl.clearFloatingInterval(blueteam, team_id);
       }
     });
   }
