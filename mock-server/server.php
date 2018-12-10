@@ -128,4 +128,4 @@ $mock2 = [
     ]
 ];
 
-echo json_encode($mock2);
+echo json_encode($mock);

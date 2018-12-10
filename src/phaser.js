@@ -6,23 +6,24 @@ import config from './config';
 // Phaser will stop at this distance
 const dist_map = {
   0: 590,
-  1: 520,
-  2: 450,
-  3: 450,
-  4: 520,
+  1: 510,
+  2: 415,
+  3: 415,
+  4: 510,
   5: 590,
 };
 
 const shield_rotation_map = {
   0: -1.75,
-  1: 3.7,
+  1: 3.9,
   2: 3.3,
   3: -3.3,
-  4: -3.7,
+  4: -3.9,
   5: 1.75,
 };
 
 const shieldTexture = PIXI.Texture.fromImage('assets/texture/shield.png');
+const shieldTextureRed = PIXI.Texture.fromImage('assets/texture/shield-red.png');
 const shield = [
   new PIXI.Sprite(shieldTexture),
   new PIXI.Sprite(shieldTexture),
@@ -161,6 +162,13 @@ function phaser(app, blueteam, team_id) {
       shield[team_id].alpha = 0;
       shieldAdded[team_id] = true;
       app.stage.addChild(shield[team_id]);
+    }
+
+    if (blueteam[team_id].alive_level < 3) {
+      shield[team_id].texture = shieldTextureRed;
+    }
+    else {
+      shield[team_id].texture = shieldTexture;
     }
 
     shield[team_id].alpha = 0.9;
