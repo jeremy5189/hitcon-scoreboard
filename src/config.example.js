@@ -13,5 +13,6 @@ export default {
     redirect_to_sponsors: 60 * 1000,
     // Sponsor 介面網址，請務必加上 ?redirect=dashboard
     // 輪播 Sponsor 完畢會導向回 /assets/dashboard/
+    // 若需更改請編輯 sponsor/index.html:300
     sponsor_link: 'sponsors/?redirect=dashboard'
 };
