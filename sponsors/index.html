@@ -273,7 +273,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>HITCON Defense v3.14</title>
+  <title>HITCON Defense Sponsors</title>
 
   <link rel="stylesheet" href="css/reveal.css">
   <link rel="stylesheet" href="css/theme/simple.css">
@@ -554,6 +554,15 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       loop: true,
       dependencies: []
     });
+  </script>
+  <script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var redirect = urlParams.get('redirect');
+    if (redirect === 'dashboard') {
+      setTimeout(function() {
+        window.location.href = '/';
+      }, 60 * 1000);
+    }
   </script>
 </body>
 

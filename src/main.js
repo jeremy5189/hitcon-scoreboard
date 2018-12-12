@@ -54,3 +54,7 @@ setInterval(function() {
   polling.fetchVTime(vtime);
 }, config.fetch_vtime_interval);
 
+setTimeout(function() {
+  window.location.href = config.sponsor_link;
+}, config.redirect_to_sponsors);
+
