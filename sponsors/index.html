@@ -269,23 +269,292 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
       </div>
     </div>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <script>
-document.body.style.cursor = 'none';
+  <title>HITCON Defense v3.14</title>
 
-// More info about config & dependencies:
-// - https://github.com/hakimel/reveal.js#configuration
-// - https://github.com/hakimel/reveal.js#dependencies
-Reveal.initialize({
-  controls: false,
-  progress: false,
-  history: true,
-  autoSlide: 4096,
-  loop: true,
-  dependencies: []
-});
-    </script>
-  </body>
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/simple.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <style type="text/css">
+    body {
+      background-color: #f8f8f8;
+    }
+
+    #defense {
+      width: 25%;
+      border: none;
+      background: none;
+      box-shadow: none;
+    }
+
+    .playback {
+      display: none;
+    }
+
+    .sub {
+      font-weight: 900;
+      text-shadow: #aaa 0 0 2px;
+    }
+
+    .sep {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .line {
+      background-image: url("css/img/sep.png");
+      background-position: 0 -29px;
+      width: 512px;
+      height: 29px;
+      margin: 0 auto !important;
+    }
+
+    .line::before {
+      background-image: url("css/img/sep.png");
+      background-position: 0 0;
+      height: 29px;
+      left: calc(50% - 356px);
+      position: absolute;
+      top: 0;
+      width: 100px;
+      content: "";
+    }
+
+    .line::after {
+      background-image: url("css/img/sep.png");
+      background-position: 100% 0;
+      height: 29px;
+      right: calc(50% - 356px);
+      position: absolute;
+      top: 0;
+      width: 100px;
+      content: "";
+    }
+
+    .section {
+      display: flex;
+      justify-content: center;
+    }
+
+    .lf {
+      break-after: always;
+      width: 100%;
+    }
+
+    .reveal .sponsors>img {
+      max-width: 330px;
+      border: none;
+      box-shadow: none;
+      background: none;
+    }
+
+    #hita {
+      filter: invert(85.5%);
+    }
+
+    #idb {
+      /*	filter: invert(20%) saturate(150%);*/
+    }
+
+    #aws {
+      width: 120px;
+      margin-left: 0px;
+      margin-right: 60px;
+    }
+
+    #borg {
+      width: 100px;
+      margin-left: 160px;
+      margin-right: 8px;
+      margin-bottom: -10px;
+    }
+
+    #kksec {
+      width: 300px;
+    }
+
+    #cisco {
+      width: 180px;
+      margin-right: 75px;
+      margin-left: 50px;
+    }
+
+    #dellemc {
+      margin-right: 80px;
+    }
+
+    #gaia {
+      width: 120px;
+      margin-left: 100px;
+      margin-right: 60px;
+      margin-bottom: -10px;
+    }
+
+    #hauman {
+      width: 260px;
+      margin-left: 20px;
+      margin-right: 85px;
+      margin-bottom: 10px;
+    }
+
+    #imperva {
+      width: 300px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+
+    #netscout {
+      margin-left: 30px;
+      margin-right: 80px;
+    }
+
+    #panduit {
+      margin-right: 60px;
+    }
+
+    #yotta {
+      width: 260px;
+      margin-left: -340px
+    }
+
+    #nurign {
+      width: 120px;
+      margin-left: 130px;
+      margin-right: 90px;
+      margin-bottom: -5px;
+    }
+
+    #prolabs {
+      margin-bottom: 0;
+      margin-right: 5px;
+    }
+
+    #sent {
+      margin-left: -5px;
+      margin-right: 10px;
+    }
+
+    #teamt5 {
+      width: 300px;
+      filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    #pccuce {
+      margin-right: 10px;
+    }
+
+    #pccuit {
+      margin-right: 10px;
+    }
+  </style>
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="defense" data-background="#222">
+        <img src="css/img/HITCON_Defense_White.png" id="defense" />
+      </section>
+      <section class="sponsors">
+        <span class="sub">主辦單位</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/hita.png" id="hita" />
+        <img src="css/img/idb.png" id="idb" />
+      </section>
+      <section class="sponsors">
+        <span class="sub">執行單位</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/itri.png" id="itri" />
+        <div class="lf"></div>
+        <span class="sub">協辦單位</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/AWS.svg" id="aws" />
+        <img src="css/img/borg.svg" id="borg" />
+        <div class="lf"></div>
+        <img src="css/img/cisco.png" id="cisco" />
+        <img src="css/img/kksec.svg" id="kksec" />
+      </section>
+      <section class="sponsors">
+        <span class="sub">金牌贊助</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/dellemc.svg" id="dellemc" />
+        <img src="css/img/gaia.png" id="gaia" />
+        <div class="lf"></div>
+        <img src="css/img/hauman.png" id="hauman" />
+        <img src="css/img/imperva.svg" id="imperva" />
+        <div class="lf"></div>
+        <img src="css/img/netscout.svg" id="netscout" />
+        <img src="css/img/panduit.svg" id="panduit" />
+      </section>
+      <section class="sponsors">
+        <span class="sub">銀級贊助</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/lealea.svg" id="lealea" />
+        <img src="css/img/nurign.png" id="nurign" />
+        <div class="lf"></div>
+        <img src="css/img/prolabs.png" id="prolabs" />
+        <img src="css/img/pulses.png" id="pulses" />
+        <div class="lf"></div>
+        <img src="css/img/sentinel1.png" id="sent" />
+        <img src="css/img/teamt5.png" id="teamt5" />
+        <div class="lf"></div>
+        <img src="css/img/yotta.png" id="yotta" />
+      </section>
+      <section class="sponsors">
+        <span class="sub">學界夥伴</span>
+        <div class="sep">
+          <div class="line"></div>
+        </div>
+        <img src="css/img/pccuce.svg" id="pccuce" />
+        <img src="css/img/pccuit.png" id="pccuit" />
+      </section>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+    document.body.style.cursor = 'none';
+
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+      controls: false,
+      progress: false,
+      history: true,
+      autoSlide: 4096,
+      loop: true,
+      dependencies: []
+    });
+  </script>
+</body>
+
 </html>
