@@ -12,5 +12,6 @@ export default {
     // 開啟畫面後，跳轉至 Sponsor 介面的時間
     redirect_to_sponsors: 60 * 1000,
     // Sponsor 介面網址，請務必加上 ?redirect=dashboard
+    // 輪播 Sponsor 完畢會導向回 /assets/dashboard/
     sponsor_link: 'sponsors/?redirect=dashboard'
 };
