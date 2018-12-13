@@ -7,8 +7,8 @@ import config from './config';
 const dist_map = {
   0: 590,
   1: 510,
-  2: 415,
-  3: 415,
+  2: 455,
+  3: 455,
   4: 510,
   5: 590,
 };
@@ -24,6 +24,7 @@ const shield_rotation_map = {
 
 const shieldTexture = PIXI.Texture.fromImage('assets/texture/shield.png');
 const shieldTextureRed = PIXI.Texture.fromImage('assets/texture/shield-red.png');
+
 const shield = [
   new PIXI.Sprite(shieldTexture),
   new PIXI.Sprite(shieldTexture),
@@ -32,6 +33,7 @@ const shield = [
   new PIXI.Sprite(shieldTexture),
   new PIXI.Sprite(shieldTexture)
 ];
+
 const shieldAdded = [
   false, false, false,
   false, false, false
@@ -108,14 +110,6 @@ function phaser(app, blueteam, team_id) {
   );
   graphicsCanonLightCenter.endFill();
 
-  // Draw sheild
-  const graphicsSheild = new PIXI.Graphics();
-  const graphicsSheildCenter = new PIXI.Graphics();
-
-  // Before phaser (layer under)
-  app.stage.addChild(graphicsSheild);
-  app.stage.addChild(graphicsSheildCenter);
-
   // Draw phaser and cannon light
   app.stage.addChild(graphicsPhaser);
   app.stage.addChild(graphicsPhaserCenter);
@@ -180,49 +174,13 @@ function phaser(app, blueteam, team_id) {
     shield[team_id].rotation = shield_rotation_map[team_id];
   }
 
-  function sheild() {
-
-    const graphicsSheildBlur = new PIXI.filters.BlurFilter();
-    const graphicsSheildCenterBlur = new PIXI.filters.BlurFilter();
-
-    graphicsSheildBlur.blur = 15;
-    graphicsSheild.filters = [graphicsSheildBlur];
-    graphicsSheild.lineStyle(0);
-    graphicsSheild.beginFill(
-      blueteam[team_id].alive_level < 3 ? constant.color.sheild_red : constant.color.sheild_blue,
-      1
-    );
-    graphicsSheild.drawEllipse(
-      pharser_final.x,
-      pharser_final.y,
-      blueteam[team_id].alive_level < 3 ? 30 : 50,
-      blueteam[team_id].alive_level < 3 ? 20 : 40,
-    );
-    graphicsSheild.endFill();
-
-    graphicsSheildCenterBlur.blur = 3;
-    graphicsSheildCenter.filters = [graphicsSheildCenterBlur];
-    graphicsSheildCenter.lineStyle(0);
-    graphicsSheildCenter.beginFill(
-      blueteam[team_id].alive_level < 3 ? constant.color.sheild_red : constant.color.sheild_blue,
-      1
-    );
-    graphicsSheildCenter.drawEllipse(
-      pharser_final.x,
-      pharser_final.y,
-      blueteam[team_id].alive_level < 3 ? 10 : 20,
-      blueteam[team_id].alive_level < 3 ? 10 : 20,
-    );
-    graphicsSheildCenter.endFill();
-  }
-
   function shoot() {
 
     if (team_id > 2) {
-      x -= 40;
+      x -= 30;
     }
     else {
-      x += 40;
+      x += 30;
     }
 
     const y = liner_eq(slop, x, b);
@@ -234,7 +192,6 @@ function phaser(app, blueteam, team_id) {
       pharser_final.y = y;
       app.ticker.remove(shoot);
 
-      //sheild();
       shield_static();
 
       if (blueteam[team_id].alive_level >= 3) {
@@ -255,7 +212,9 @@ function phaser(app, blueteam, team_id) {
 
   app.ticker.add(shoot);
 
+  // Clear phaser
   setTimeout(function() {
+
     blueteam[team_id].under_phaser = false;
     shield[team_id].alpha = 0;
 
@@ -263,10 +222,6 @@ function phaser(app, blueteam, team_id) {
     graphicsPhaserCenter.clear();
     graphicsCanonLight.clear();
     graphicsCanonLightCenter.clear();
-    graphicsSheild.clear();
-    graphicsSheildCenter.clear();
-    app.stage.removeChild(graphicsSheild);
-    app.stage.removeChild(graphicsSheildCenter);
     app.stage.removeChild(graphicsPhaser);
     app.stage.removeChild(graphicsPhaserCenter);
     app.stage.removeChild(graphicsCanonLightCenter);
@@ -275,8 +230,6 @@ function phaser(app, blueteam, team_id) {
     graphicsPhaserCenter.destroy();
     graphicsCanonLight.destroy();
     graphicsCanonLightCenter.destroy();
-    graphicsSheild.destroy();
-    graphicsSheildCenter.destroy();
 
     if (blueteam[team_id].alive_level >= 3) {
       app.ticker.add(blueteam_reposition);
