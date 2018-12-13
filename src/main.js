@@ -46,12 +46,14 @@ polling.fetchVTime(vtime);
 //polling.startMinTick(vtime);
 
 // Polling
-setInterval(function() {
+setTimeout(function mainPolling() {
   polling.fetchData(app, blueteam);
+  setTimeout(mainPolling, config.fetch_interval);
 }, config.fetch_interval);
 
-setInterval(function() {
+setTimeout(function vtimePolling() {
   polling.fetchVTime(vtime);
+  setTimeout(vtimePolling, config.fetch_vtime_interval);
 }, config.fetch_vtime_interval);
 
 setTimeout(function() {
