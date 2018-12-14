@@ -257,8 +257,10 @@ const polling = {
         beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
       }
       else if (polling.serverData[team].under_attack && polling.serverData[team].alive_level > 0) {
-        console.log(`executeAttack/phaser: ${team} -> ${team_id}, alive_level = ${blueteam[team_id].alive_level}`);
-        phaserControl.loopPhaser(app, blueteam, team_id);
+        if (Math.random() <= config.rnd_attack) {
+          console.log(`executeAttack/phaser: ${team} -> ${team_id}, alive_level = ${blueteam[team_id].alive_level}`);
+          phaserControl.loopPhaser(app, blueteam, team_id);
+        }
       }
     });
   }
