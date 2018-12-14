@@ -101,7 +101,8 @@ const floatingControl = {
 // blueteam.alive_level = 0
 const explosionControl = {
   explode_wrap(app, blueteam, team_id) {
-    explode(app, blueteam, team_id);
+    console.log('explode_wrap', team_id);
+    //explode(app, blueteam, team_id);
     blueteam[team_id].alive = false; // Prevent from explode again
     blueteam[team_id].sprite.alpha = 0;
     explosionControl.animateAlphaToDead(blueteam[team_id]);
@@ -132,15 +133,7 @@ const explosionControl = {
       if (polling.serverData[team].alive_level <= 0 &&
             blueteam[team_id].prev_alive_level > 0) {
         console.log(`explodeIfNotAlive: ${team} -> ${team_id} -> Dead (Level = 0)`);
-        // Under phaser attack now, die later
-        if (blueteam[team_id].under_phaser || blueteam[team_id].under_beam) {
-          setTimeout(function() {
-            explosionControl.explode_wrap(app, blueteam, team_id);
-          }, 3000);
-        } else {
-          // die now
-          explosionControl.explode_wrap(app, blueteam, team_id);
-        }
+        explosionControl.explode_wrap(app, blueteam, team_id);
       }
       else {
         // Currently dead, should come to live
