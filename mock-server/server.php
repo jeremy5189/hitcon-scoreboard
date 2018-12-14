@@ -8,8 +8,8 @@ $mock = [
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(0, 100),
-        'alive_web' => (rand(0, 1) === 1 ? true : false),
-        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_web' => false,
+        'alive_erp' => false,
         'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],
@@ -18,8 +18,8 @@ $mock = [
         'under_attack' => (rand(0, 1) === 1 ? true : false),
         'ddos' => (rand(0, 1) === 1 ? rand(0, 100) : 0),
         'score' => rand(100, 1000),
-        'alive_web' => (rand(0, 1) === 1 ? true : false),
-        'alive_erp' => (rand(0, 1) === 1 ? true : false),
+        'alive_web' => false,
+        'alive_erp' => false,
         'alive_sslvpn' => (rand(0, 1) === 1 ? true : false),
         'alive' => (rand(0, 1) === 1 ? true : false)
     ],

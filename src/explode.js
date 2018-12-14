@@ -4,18 +4,10 @@ import sound from './sound';
 let loader = new PIXI.loaders.Loader();
 loader.add('spritesheet', 'assets/texture/mc.json');
 
-let loaded = false;
-
 function explode(app, blueteam, team_id) {
 
-  if (!loaded) {
-    loader.once('complete', onAssetsLoaded);
-    loader.load();
-    loaded = true;
-  }
-  else {
-    onAssetsLoaded();
-  }
+  loader.once('complete', onAssetsLoaded);
+  loader.load();
 
   function onAssetsLoaded() {
 
