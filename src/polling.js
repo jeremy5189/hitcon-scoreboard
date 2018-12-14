@@ -252,7 +252,7 @@ const polling = {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Only start phaser if target is alive and under attack
-      if (polling.serverData[team].ddos > 0 && polling.serverData[team].alive_level > 0) {
+      if (polling.serverData[team].ddos > 0) {
         console.log(`executeAttack/beam: ${team} -> ${team_id}`);
         beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
       }
