@@ -242,7 +242,7 @@ const polling = {
   updateScore(blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
-      blueteam[team_id].score.text = polling.serverData[team].score;
+      blueteam[team_id].score.text = '***';
       console.log(`updateScore: ${team} -> ${team_id} -> ${polling.serverData[team].score}`);
     });
   },
