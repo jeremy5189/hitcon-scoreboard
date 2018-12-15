@@ -13,6 +13,7 @@ const dist_map = {
   5: 590,
 };
 
+// Shield image will rotate to be vertical with phaser
 const shield_rotation_map = {
   0: -1.75,
   1: 3.9,
@@ -25,6 +26,7 @@ const shield_rotation_map = {
 const shieldTexture = PIXI.Texture.fromImage('assets/texture/shield.png');
 const shieldTextureRed = PIXI.Texture.fromImage('assets/texture/shield-red.png');
 
+// Each team has it's individual shield
 const shield = [
   new PIXI.Sprite(shieldTexture),
   new PIXI.Sprite(shieldTexture),
@@ -34,9 +36,9 @@ const shield = [
   new PIXI.Sprite(shieldTexture)
 ];
 
+// Record if shield of that team has been added or not
 const shieldAdded = [
-  false, false, false,
-  false, false, false
+  false, false, false, false, false, false
 ];
 
 // liner equation y = mx + b
@@ -44,7 +46,7 @@ function liner_eq(slop, x, b) {
   return slop * x + b;
 }
 
-// distance formula
+// distance formula to redteam cannon
 function distance_to_cannon(x, y) {
   return Math.sqrt(
     (y - constant.red_team_position.cannon.y) * (y - constant.red_team_position.cannon.y) +
@@ -144,6 +146,7 @@ function phaser(app, blueteam, team_id) {
     }
   }
 
+  // Record the final position where the phaser stop and render the shield
   const pharser_final = {
     x: 0,
     y: 0
@@ -174,6 +177,7 @@ function phaser(app, blueteam, team_id) {
     shield[team_id].rotation = shield_rotation_map[team_id];
   }
 
+  // Shoot the phaser
   function shoot() {
 
     if (team_id > 2) {
@@ -210,6 +214,7 @@ function phaser(app, blueteam, team_id) {
     graphicsPhaserCenter.lineTo(x, y);
   }
 
+  // Start shooting the phaser
   app.ticker.add(shoot);
 
   // Clear phaser

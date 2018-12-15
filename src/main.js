@@ -1,4 +1,3 @@
-// Import PIXI
 import * as PIXI from 'pixi';
 
 import constant from './constant';
@@ -43,7 +42,6 @@ Object.values(blueteam).forEach((team) => {
 
 polling.fetchData(app, blueteam);
 polling.fetchVTime(vtime);
-//polling.startMinTick(vtime);
 
 // Polling
 setTimeout(function mainPolling() {
@@ -51,12 +49,8 @@ setTimeout(function mainPolling() {
   setTimeout(mainPolling, config.fetch_interval);
 }, config.fetch_interval);
 
+// VTime Polling
 setTimeout(function vtimePolling() {
   polling.fetchVTime(vtime);
   setTimeout(vtimePolling, config.fetch_vtime_interval);
 }, config.fetch_vtime_interval);
-
-setTimeout(function() {
-  window.location.href = config.sponsor_link;
-}, config.redirect_to_sponsors);
-

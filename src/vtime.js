@@ -3,11 +3,9 @@ import * as PIXI from 'pixi';
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 60,
-  // fontStyle: 'italic',
   fontWeight: 'bold',
   fill: ['#ffffff', '#4d84f9'], // gradient
   stroke: '#1456e1',
-  // strokeThickness: 5,
   dropShadow: true,
   dropShadowColor: '#000000',
   dropShadowBlur: 4,
@@ -27,5 +25,5 @@ hour.y = 25;
 
 export default {
   day,
-  hour
+  hour,
 };

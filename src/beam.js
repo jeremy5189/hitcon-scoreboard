@@ -32,7 +32,6 @@ function beam(app, blueteam, team_id, net_flow) {
   let _slop = -1 / slop;
   let shift = shift_map[team_id];
 
-  //let b = blueteam[team_id].y - slop * blueteam[team_id].x;
   sound.beam().play();
 
   const beams = [];

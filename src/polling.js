@@ -65,7 +65,7 @@ const floatingControl = {
   enterpriseNormalTexture: PIXI.Texture.fromImage('assets/texture/enterprise-normal.png'),
 
   // Init phaser attack with setInterval
-  loopFloating(app, blueteam, team_id) {
+  loopFloating(blueteam, team_id) {
     floatingControl.floatingRotation[team_id] = blueteam[team_id].sprite.rotation;;
     blueteam[team_id].prev_rotation = blueteam[team_id].sprite.rotation;
     blueteam[team_id].sprite.texture = floatingControl.enterpriseBrokenTexture;
@@ -82,14 +82,14 @@ const floatingControl = {
     blueteam[team_id].sprite.texture = floatingControl.enterpriseNormalTexture;
   },
 
-  startFloating(app, blueteam) {
+  startFloating(blueteam) {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Float if currently alive
       if (polling.serverData[team].alive_level === 1 &&
         blueteam[team_id].prev_alive_level > 1) {
         console.log(`startFloating: ${team} -> ${team_id}`);
-        floatingControl.loopFloating(app, blueteam, team_id);
+        floatingControl.loopFloating(blueteam, team_id);
       }
       else if (polling.serverData[team].alive_level !== 1) {
         floatingControl.clearFloatingInterval(blueteam, team_id);
@@ -207,7 +207,7 @@ const polling = {
       polling.updateTeamName(blueteam);
       polling.updateScore(blueteam);
       polling.executeAttack(app, blueteam); // Start phaser loop
-      floatingControl.startFloating(app, blueteam);
+      floatingControl.startFloating(blueteam);
       explosionControl.explodeIfNotAlive(app, blueteam);
     });
   },
@@ -252,7 +252,7 @@ const polling = {
     Object.keys(polling.serverData).forEach((team) => {
       let team_id = constant.team_id_mapping[team];
       // Only start phaser if target is alive and under attack
-      if (polling.serverData[team].ddos > 0) {
+      if (polling.serverData[team].ddos > 0 && polling.serverData[team].alive_level > 0) {
         console.log(`executeAttack/beam: ${team} -> ${team_id}`);
         beamControl.loopBeam(app, blueteam, team_id, polling.serverData[team].ddos);
       }
