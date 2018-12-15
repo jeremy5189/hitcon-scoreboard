@@ -2,6 +2,7 @@
 
 ![main-scoreboard](https://user-images.githubusercontent.com/1984426/50040572-edfb6400-0080-11e9-89cf-d5548908bc8a.jpg)
 
+(There is also a [team dashboard](https://github.com/jeremy5189/hitcon-scoreboard-team) used to display each team's status)
 
 This is the scoreboard of Hack In Taiwan Conference Defence, which took place on Dec. 14, 2018 in Taipei. Six major cooperation and governmental agency has participated in this event including:
 
@@ -21,7 +22,8 @@ For more information please visit: [HITCON DEFENCE](https://hitcon.org/2018/defe
 
 ![img_8107](https://user-images.githubusercontent.com/1984426/50040989-35d1b980-0088-11e9-823e-f963acc485f1.JPG)
 
-Video here: [https://youtu.be/qpa5Ibzpw48](https://youtu.be/qpa5Ibzpw48)
+- Video: [https://youtu.be/qpa5Ibzpw48](https://youtu.be/qpa5Ibzpw48)
+- Video by HITCON official: [https://www.facebook.com/HITCON/videos/547854645639157/](https://www.facebook.com/HITCON/videos/547854645639157/)
 
 ## Features
 
