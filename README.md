@@ -19,7 +19,9 @@ For more information please visit: [HITCON DEFENCE](https://hitcon.org/2018/defe
 
 ## Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qpa5Ibzpw48" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![img_8107](https://user-images.githubusercontent.com/1984426/50040989-35d1b980-0088-11e9-823e-f963acc485f1.JPG)
+
+Video here: [https://youtu.be/qpa5Ibzpw48](https://youtu.be/qpa5Ibzpw48)
 
 ## Features
 
