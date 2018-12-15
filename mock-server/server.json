@@ -1,0 +1,56 @@
+{
+  "T1": {
+    "teamname": "Team 1",
+    "under_attack": true,
+    "ddos": 0,
+    "score": 64,
+    "alive_web": false,
+    "alive_erp": false,
+    "alive_sslvpn": true
+  },
+  "T2": {
+    "teamname": "Team 2",
+    "under_attack": true,
+    "ddos": 0,
+    "score": 615,
+    "alive_web": false,
+    "alive_erp": false,
+    "alive_sslvpn": false
+  },
+  "T3": {
+    "teamname": "Team 3",
+    "under_attack": true,
+    "ddos": 0,
+    "score": 5142,
+    "alive_web": true,
+    "alive_erp": true,
+    "alive_sslvpn": true
+  },
+  "T4": {
+    "teamname": "Team 4",
+    "under_attack": true,
+    "ddos": 70,
+    "score": 49028,
+    "alive_web": false,
+    "alive_erp": true,
+    "alive_sslvpn": false
+  },
+  "T5": {
+    "teamname": "Team 5",
+    "under_attack": false,
+    "ddos": 20,
+    "score": 7604,
+    "alive_web": false,
+    "alive_erp": true,
+    "alive_sslvpn": true
+  },
+  "T6": {
+    "teamname": "Team 6",
+    "under_attack": false,
+    "ddos": 0,
+    "score": 4178,
+    "alive_web": true,
+    "alive_erp": false,
+    "alive_sslvpn": true
+  }
+}
